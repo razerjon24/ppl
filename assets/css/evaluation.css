@@ -1,0 +1,88 @@
+@media (min-width: 641px) {
+    th{
+        padding: 5px 0;
+        text-align: center;
+        background-color: #28388B;
+        color: #ffffff;
+        border: solid 1px #ffffff;
+        font-size: 15px;
+    }
+    td{
+        border: solid 1px #337AB7;
+        font-size: 18px;
+        text-align: center;
+        font-family: "Calibri";
+    }
+    #ReportContainer{
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        margin-bottom: 26px;
+        width: 950px;
+    }
+    #reportTable{
+        width: 100%;
+    }
+    #Evaluation_content{
+        font-size: 24px;
+        width: 920px;
+        height: 657px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        z-index: 0;
+        background-color: #ffffff;
+        border: 1px solid #337AB7;
+        margin-bottom: 26px;
+    }
+    .evaluation_button{
+        color: #ffffff;
+        float: left;
+        padding-top: 4px;
+        background-color: transparent;
+        border: none;
+    }
+    .evaluation_button:hover{
+        color: lightblue;
+    }
+    .new-evaluation_field{
+        width: 460px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        margin-top: 30px;
+    }
+    .title-field-evaluation{
+        width: 200px;
+    }
+    #evaluation_list{
+        display: inline-block;
+        width: 941px;
+        max-height: 547px;
+        overflow: auto;
+    }
+    #peer_list{
+        position: fixed;
+        margin: 0 auto;
+        padding: 0 0;
+        right: 0;
+        left: 0;
+        max-width: 924px;
+        max-height: 550px;
+        overflow: auto;
+        z-index: 3;
+    }
+    #team_list{
+        position: fixed;
+        margin: 0 auto;
+        padding: 0 0;
+        right: 0;
+        left: 0;
+        max-width: 550px;
+        max-height: 550px;
+        overflow: auto;
+        z-index: 3;
+    }
+}

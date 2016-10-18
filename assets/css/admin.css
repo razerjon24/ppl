@@ -1,0 +1,123 @@
+@media (min-width: 641px) {
+    th{
+        padding: 5px 0;
+        text-align: center;
+        background-color: #28388B;
+        color: #ffffff;
+        border: solid 1px #ffffff;
+    }
+    td{
+        background-color: #ffffff;
+        border: solid 1px #337AB7;
+    }
+    #infoNew{
+        text-align: center;
+        width: 670px;
+        height: 200px;
+        padding: 50px 50px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .list-group-item{
+        border-radius: 0 !important;
+
+    }
+    .alert-info{
+        border-radius: 0 !important;
+        background-color: #EDF2F4;
+    }
+    .course{
+        font-size: 20px;
+        font-family: "Calibri";
+    }
+    #container{
+        width: 100%;
+        height: 400px;
+        position: absolute;
+        margin-bottom: 26px;
+    }
+    .botones_Courses{
+        color: #ffffff;
+    }
+    .botones_Courses:hover{
+        color: lightgray;
+    }
+    .student_button{
+        font-size: 24px;
+        width: 33px;
+        height: 33px;
+        float: left;
+        color: white;
+        padding: 2px;
+        padding-top: 1px;
+        border: 2px solid transparent;
+        background-color: transparent;
+    }
+    .student_button:hover{
+        color: lightblue;
+    }
+    .student_button:focus{
+        color: white;
+        border: 2px solid #3F84D9;
+    }
+    .student_option{
+        font-size: 24px;
+        color: white;
+        border: none;
+    }
+    .student_option:hover{
+        color: lightblue;
+    }
+    .student_option_button{
+        height: 33px;
+        width: 33px;
+        padding: 1px;
+        margin-left: 5px;
+        background-color: transparent;
+        border: 3px solid transparent;
+    }
+    #containerCourses{
+        height: 606px;
+        background-color: #F2F2F2;
+        width: 378px;
+        float: left;
+        border: 1px solid #D5D5D5;
+        border-right: none;
+    }
+    #containerStudents{
+        width: 802px;
+        background-color: #F1F1F1;
+        height: 606px;
+        float: left;
+        border: 1px solid #D5D5D5;
+        border-left: none;
+    }
+    .student{
+        width: 487px;
+        float: left;
+        font-size: 15px;
+    }
+    #groups-students{
+        font-size: 15px;
+        width: 802px;
+    }
+    .studentList{
+        font-family: "Calibri";
+        font-size: 18px;
+        width: 802px;
+        height: 505px;
+        overflow: auto;
+    }
+    .groups_field:disabled{
+        background-color: #337AB7;
+        color: #ffffff;
+    }
+    .title-field-student{
+        width: 200px;
+    }
+
+}

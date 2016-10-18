@@ -1,0 +1,46 @@
+body,html{
+    background-image: url(/ppl/assets/images/background.png);
+    margin-top: 58px;
+    margin-bottom: 26px;
+}
+@media (max-width: 640px) {
+    body{font-size: 14px;}
+    #panel{
+        margin-top: 10%;
+    }
+}
+@media (min-width: 641px) {
+    body{font-size: 20px;}
+    input{
+        margin: 10px 0;
+    }
+    .dropdown-menu{
+        width: 300px;
+        background-color: #E7E7E7;
+    }
+    #container_all{
+        position: absolute;
+        width: 1280px;
+        border: 1px solid #D5D5D5;
+        right: 0;
+        left: 0;
+        height: 652px;
+        margin: auto;
+    }
+    #wowslider-container1{
+        width: 850px;
+        height: 650px;
+        float: left;
+    }
+    #container_text{
+        float: left;
+        width: 428px;
+        height: 650px;
+        margin: 0;
+        border: none;
+        background-color: #F1F1F1;
+    }
+}
+.banner { position: relative; overflow: auto; }
+.banner li { list-style: none; }
+.banner ul li { float: left; }

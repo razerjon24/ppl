@@ -1,0 +1,94 @@
+@media (min-width: 641px) {
+    #infoNew{
+        text-align: center;
+        line-height: 100px;
+        width: 670px;
+        height: 200px;
+        padding: 50px 50px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .course{
+        font-size: 20px;
+        font-family: "Calibri";
+    }
+    #containerEvaluations{
+        width: 812px;
+        background-color: #F1F1F1;
+        height: 656px;
+        float: left;
+        border: 1px solid #D5D5D5;
+        border-left: none;
+    }
+    #evaluationsList{
+        display: inline-block;
+        font-family: "Calibri";
+        font-size: 18px;
+        width: 812px;
+        max-height: 554px;
+        overflow: auto;
+    }
+    .list-group-item{
+        border-radius: 0 !important;
+    }
+    .list-group{
+        margin: 0;
+        max-height: 537px;
+        overflow: auto;
+        font-size: 16px;
+        border: none;
+    }
+    th{
+        padding: 5px 0;
+        text-align: center;
+        background-color: #28388B;
+        color: #ffffff;
+        border: solid 1px #ffffff;
+    }
+    td{
+        background-color: #ffffff;
+        border: solid 1px #337AB7;
+    }
+    #container_take{
+        text-align: center;
+        width: 760px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        margin-top: 256px;
+        margin-bottom: 26px;
+    }
+    .assessment{
+        padding: 10px 20px;
+    }
+    #overlay{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        opacity: 0.90;
+        background-color: #000000;
+        z-index: 2;
+    }
+    #peer_list{
+        position: absolute;
+        background-color: #28388B;
+        margin: 0 auto;
+        margin-top: 160px;
+        padding: 0 0;
+        right: 0;
+        left: 0;
+        max-width: 450px;
+        max-height: 350px;
+        z-index: 3;
+    }
+    textarea{
+        resize: none;
+        width: 400px;
+        height: 90px;
+    }
+}
