@@ -58,11 +58,11 @@
                 echo "</h2>";
                 echo "</div>";
                 $i=0;
-                echo "<table style='width: 100%'><tr><th style='width: 16%'>REG. ID</th><th style='width: 24%'>FIRST NAME</th><th style='width: 24%'>LAST NAME</th><th style='width: 24%'>EMAIL</th><th >GROUP</th></tr></table>";
+                echo "<table style='width: 100%'><tr><th style='width: 6%'>#</th><th style='width: 10%'>ID</th><th style='width: 24%'>FIRST NAME</th><th style='width: 24%'>LAST NAME</th><th style='width: 24%'>EMAIL</th><th >GROUP</th></tr></table>";
                 echo "<div style='overflow: auto ;height: 300px'>";
                 echo "<table style='width: 100%'>";
                 foreach($groups as $group) {
-                    echo "<tr><td style='width: 16%'><input type='text' style='border: none; text-overflow: ellipsis; background-color: transparent; width: 100%'  tabindex='-1' value='$group->Registration_number' name='students[$i][id]' readonly></td><td style='width: 24%'><input type='text' style='border: none ; background-color: transparent; text-overflow: ellipsis; width: 100%' tabindex='-1' value='".strtoupper($group->Names)."' readonly></td><td style='width: 24%'><input type='text' style='border: none ; background-color: transparent; text-overflow: ellipsis; width: 100%' tabindex='-1' value='".strtoupper($group->Surnames)."' readonly></td><td style='width: 24%'><input type='text' style='border: none ; background-color: transparent; text-overflow: ellipsis; width: 100%' tabindex='-1' value='$group->Email' readonly></td>";
+                    echo "<tr><td style='width: 6%'>$i+1</td><td style='width: 16%'><input type='text' style='border: none; text-overflow: ellipsis; background-color: transparent; width: 100%'  tabindex='-1' value='$group->Registration_number' name='students[$i][id]' readonly></td><td style='width: 24%'><input type='text' style='border: none ; background-color: transparent; text-overflow: ellipsis; width: 100%' tabindex='-1' value='".strtoupper($group->Names)."' readonly></td><td style='width: 24%'><input type='text' style='border: none ; background-color: transparent; text-overflow: ellipsis; width: 100%' tabindex='-1' value='".strtoupper($group->Surnames)."' readonly></td><td style='width: 24%'><input type='text' style='border: none ; background-color: transparent; text-overflow: ellipsis; width: 100%' tabindex='-1' value='$group->Email' readonly></td>";
                     echo "<td style='text-align: center;'>";
                     echo "<input class='groups_field' style='text-align: center; border: none; width: 100%' max='99' min='1' type='number' name='students[$i][group]' value='$group->Group_number' disabled></td></tr>";
                     $i++;
