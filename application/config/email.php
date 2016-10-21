@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$config['useragent'] = "CodeIgniter";
+$config['useragent'] = "PHPMailer";
 
 $config['mailpath']  = "/usr/sbin/sendmail";
 
@@ -17,11 +17,11 @@ $config['charset'] = 'utf-8';
 
 $config['wordwrap'] = TRUE;
 
-$config['smtp_crypto'] = 'tls';
+//$config['smtp_crypto'] = 'tls';
 
 $config['smtp_user'] = "ppl@espol.edu.ec";
 
-$config['smtp_pass'] = "PPLproject16";
+//$config['smtp_pass'] = "PPLproject16";
 
 $config['validate'] = TRUE;
 
