@@ -10,6 +10,7 @@ class Course extends CI_Controller {
             $this->data['instructor_name'] = $this->session->userdata('user_name');
             $this->load->view('admin_head',$this->data);
             $this->load->view('new_course');
+            $this->load->view('home_footer');
         }
         else{
             echo "<script>window.location.href='".base_url("index.php")."';</script>";

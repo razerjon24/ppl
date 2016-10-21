@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="<?php echo base_url();?>assets/datepicker/css/datepicker.css">
     <script type="text/javascript" src="<?php echo base_url();?>assets/datepicker/js/datepicker.js"></script>
 </head>
-<div class="row" style='width: 100%; height: 400px'>
+<div class="row" style='width: 100%; height: 500px'>
     <div class="col-md-offset-3 col-md-6 col-sm-6">
         <div class='panel panel-default'>
             <div class="panel-heading">
@@ -14,14 +14,22 @@
 <!--                <button class='evaluation_button' style="margin-left: 5px"  data-toggle='tooltip' title='Full Report' role='button'><span class='glyphicon glyphicon-book'></span></button>-->
                 </h2>
             </div>
-            <div style="overflow: auto; height: 600px">
+            <div style="overflow: auto; height: 400px">
+            <style>
+                td{
+                    text-align: center;
+                }
+                th{
+                    text-align: center;
+                }
+            </style>
             <?php
                 if(!empty($evaluations)){
-                    echo "<table style='width: 100%'><tr><th style='width: 6%'>#</th><th style='width: 26%'>STARTS</th><th style='width: 26%'>ENDS</th><th style='width: 13%'>PROJECT</th><th style='width: 26%'>FORMAT</th><th>REPORT</th></tr></table>";
                     echo "<table id='evaluation_list'>";
                     $i = 1;
+                    echo "<tr><th style='width: 6%'>#</th><th style='width: 26%'>STARTS</th><th style='width: 26%'>ENDS</th><th style='width: 13%'>PROJECT</th><th style='width: 21%'>FORMAT</th><th>REPORT</th></tr>";
                     foreach($evaluations as $evaluation){
-                        echo "<tr><td style='width: 6%'>$i</td><td style='width: 26%'>".date('M j\, Y',strtotime($evaluation->Evaluation_start))."</td><td style='width: 26%'>".date('M j\, Y',strtotime($evaluation->Evaluation_end))."</td><td style='width:13%'>$evaluation->Project</td><td style='width:26%'>$evaluation->Format</td><td><a href=".base_url()."index.php/evaluation/preview/".$courseInfo[0]->Course_id."/".$evaluation->Evaluation_number."/".$evaluation->Project.">".$evaluation->Type." Assessment"."</a></td></tr>";
+                        echo "<tr><td>$i</td><td>".date('M j\, Y',strtotime($evaluation->Evaluation_start))."</td><td>".date('M j\, Y',strtotime($evaluation->Evaluation_end))."</td><td>$evaluation->Project</td><td>$evaluation->Format</td><td><a href=".base_url()."index.php/evaluation/preview/".$courseInfo[0]->Course_id."/".$evaluation->Evaluation_number."/".$evaluation->Project.">".$evaluation->Type."</a></td></tr>";
                         $i++;
                     }
                     echo "</table>";
@@ -36,7 +44,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 <img id="loading-bar" src="<?php echo base_url();?>assets/images/loading-bar.gif" style="display: none">
 <div class="col-md-offset-4 col-md-4 col-sm-4">
@@ -84,6 +91,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 <script type="text/javascript">
     $(function () {

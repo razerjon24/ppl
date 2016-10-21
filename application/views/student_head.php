@@ -104,7 +104,7 @@
             </div><!--//navbar-header-->
             <div class="navbar-collapse collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <?php if(isset($video) or isset($contact)){
+                    <?php if(isset($video) or isset($contact) or isset($advisory)){
                         echo '<li class="nav-item"><a href="'.base_url('index.php/student/index').'">Home</a></li>';
                     }
                     else{
@@ -116,7 +116,7 @@
                     else{
                         echo '<li class="nav-item"><a href="'.base_url('index.php/video').'">Videos <? echo base_url();?></a></li>';
                     }?>
-                    <?php if(isset($counseling)){
+                    <?php if(isset($advisory)){
                         echo '<li class="nav-item active"><a href="'.base_url('index.php/advisory').'">Advisory <? echo base_url();?></a></li>';
                     }
                     else{

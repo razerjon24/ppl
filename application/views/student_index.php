@@ -59,12 +59,14 @@
         echo "<div class='panel-heading'>";
         echo "<h2 class='panel-title lead'><strong>My Courses</strong></h2>";
         echo "</div>";
+        echo "<div style='overflow: auto ;height: 320px'>";
         foreach($courses as $course){
             if(isset($courseID) && $course->Course_id == $courseID)
                 echo    "<a href=".base_url()."index.php/student/index/$course->Course_id class='list-group-item lead active'>$course->Course_name</a>";
             else
                 echo    "<a href=".base_url()."index.php/student/index/$course->Course_id class='list-group-item lead'>$course->Course_name</a>";
         }
+        echo "</div>";
         echo "</div>";
         echo "</div>";
     }
@@ -82,6 +84,7 @@ if(isset($evaluations) && !empty($evaluations)){
     echo "<h3 class='panel-title lead'>Survey List of <strong>".$courseInfo[0]->Course_name."</strong></h3>";
     echo "</div>";
     echo "<table style='width: 100%'><tr><th style='width: 5%'>#</th><th style='width: 18%'>STARTS</th><th style='width: 18%'>ENDS</th><th style='width: 12%'>PROJECT</th><th style='width: 24%'>EVALUATION</th><th style='width: 12%'>REPORT</th><th>STATUS</th></tr></table>";
+    echo "<div style='overflow: auto ;height: 300px'>";
     echo "<table style='width: 100%'>";
     $i = 1;
     foreach($evaluations as $evaluation){
@@ -110,7 +113,7 @@ if(isset($evaluations) && !empty($evaluations)){
             }
         }
         else
-            echo "<td style='width: 24%'>$evaluation->Type Assessment</td>";
+            echo "<td style='width: 24%'>$evaluation->Type</td>";
         if($current_date > $evaluation->Evaluation_end && $evaluation->Took){
             if ($evaluation->Type === 'Peer')
                 echo "<td style='width: 12%'><a style='color: blue' class='glyphicon glyphicon-list-alt' onclick='get_PeerReport($evaluation->Evaluation_id,$evaluation->Group_number, $evaluation->Evaluation_student_id)'></a></td>";
@@ -129,6 +132,7 @@ if(isset($evaluations) && !empty($evaluations)){
         $i++;
     }
     echo "</table>";
+    echo "</div>";
     echo "</div>";
     echo "</div>";
 }
