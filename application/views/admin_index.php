@@ -18,14 +18,16 @@
             echo "<div class='col-md-offset-2 col-sm-offset-1 col-md-2 col-sm-3' style='padding-right: 0'>";
             echo "<div class='panel panel-info' style='border: none'>";
             echo "<div class='panel-heading'>";
-            echo "<h2 class='panel-title lead'><strong>My Courses</strong><a class='pull-right' href='#'><span data-toggle='tooltip' title='Remove Course' class='glyphicon glyphicon-minus-sign lead' style='margin-bottom: 0'></span></a><a class='pull-right' style='margin-right: 1%;' href='".base_url('index.php/course/create')."'><span class='glyphicon glyphicon-plus-sign lead' style='margin-bottom: 0;' data-toggle='tooltip' title='Add Course'></span></a></h2>";
+            echo "<h2 class='panel-title lead'><strong>My Courses</strong><a class='pull-right' style='margin-right: 1%;' href='".base_url('index.php/course/create')."'><span class='glyphicon glyphicon-plus-sign lead' style='margin-bottom: 0;' data-toggle='tooltip' title='Add Course'></span></a></h2>";
             echo "</div>";
             echo "<div style='overflow: auto ;height: 320px'>";
             foreach($courses as $course){
-                if(isset($courseID) && $course->Course_id == $courseID)
-                    echo    "<a href=".base_url()."index.php/admin/index/$course->Course_id class='list-group-item lead active'>$course->Course_id<br>$course->Course_name</a>";
-                else
-                    echo    "<a href=".base_url()."index.php/admin/index/$course->Course_id class='list-group-item lead' >$course->Course_id<br>$course->Course_name</a>";
+                if($course->Viewable){
+                    if(isset($courseID) && $course->Course_id == $courseID)
+                        echo    "<a href=".base_url()."index.php/admin/index/$course->Course_id class='list-group-item lead active'>$course->Course_id<br>$course->Course_name</a>";
+                    else
+                        echo    "<a href=".base_url()."index.php/admin/index/$course->Course_id class='list-group-item lead' >$course->Course_id<br>$course->Course_name</a>";
+                }
             }
             echo "</div>";
             echo "</div>";

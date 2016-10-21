@@ -14,25 +14,26 @@
 <!--                <button class='evaluation_button' style="margin-left: 5px"  data-toggle='tooltip' title='Full Report' role='button'><span class='glyphicon glyphicon-book'></span></button>-->
                 </h2>
             </div>
-        <?php
-            if(!empty($evaluations)){
-                echo "<table style='width: 100%'><tr><th style='width: 6%'>#</th><th style='width: 26%'>STARTS</th><th style='width: 26%'>ENDS</th><th style='width: 13%'>PROJECT</th><th style='width: 26%'>FORMAT</th><th>REPORT</th></tr></table>";
-                echo "<table id='evaluation_list'>";
-                $i = 1;
-                foreach($evaluations as $evaluation){
-                    echo "<tr><td style='width: 6%'>$i</td><td style='width: 26%'>".date('M j\, Y',strtotime($evaluation->Evaluation_start))."</td><td style='width: 26%'>".date('M j\, Y',strtotime($evaluation->Evaluation_end))."</td><td style='width:13%'>$evaluation->Project</td><td style='width:26%'>$evaluation->Format</td><td><a href=".base_url()."index.php/evaluation/preview/".$courseInfo[0]->Course_id."/".$evaluation->Evaluation_number."/".$evaluation->Project.">".$evaluation->Type." Assessment"."</a></td></tr>";
-                    $i++;
+            <div style="overflow: auto; height: 600px">
+            <?php
+                if(!empty($evaluations)){
+                    echo "<table style='width: 100%'><tr><th style='width: 6%'>#</th><th style='width: 26%'>STARTS</th><th style='width: 26%'>ENDS</th><th style='width: 13%'>PROJECT</th><th style='width: 26%'>FORMAT</th><th>REPORT</th></tr></table>";
+                    echo "<table id='evaluation_list'>";
+                    $i = 1;
+                    foreach($evaluations as $evaluation){
+                        echo "<tr><td style='width: 6%'>$i</td><td style='width: 26%'>".date('M j\, Y',strtotime($evaluation->Evaluation_start))."</td><td style='width: 26%'>".date('M j\, Y',strtotime($evaluation->Evaluation_end))."</td><td style='width:13%'>$evaluation->Project</td><td style='width:26%'>$evaluation->Format</td><td><a href=".base_url()."index.php/evaluation/preview/".$courseInfo[0]->Course_id."/".$evaluation->Evaluation_number."/".$evaluation->Project.">".$evaluation->Type." Assessment"."</a></td></tr>";
+                        $i++;
+                    }
+                    echo "</table>";
                 }
-                echo "</table>";
-            }
-            else{
-                echo "<div class='alert alert-warning' style='margin-bottom: 0;text-align: center;' role='alert'>
-                        <strong>There are no evaluations for the selected course. <br><a role='button' onclick='showCreateEvaluation()'>Create a new evaluation</a></strong>
-                    </div>";
-            }
+                else{
+                    echo "<div class='alert alert-warning' style='margin-bottom: 0;text-align: center;' role='alert'>
+                            <strong>There are no evaluations for the selected course. <br><a role='button' onclick='showCreateEvaluation()'>Create a new evaluation</a></strong>
+                        </div>";
+                }
 
-        ?>
-
+            ?>
+            </div>
         </div>
     </div>
 </div>

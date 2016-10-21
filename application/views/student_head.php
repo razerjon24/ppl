@@ -80,13 +80,13 @@
             </div>
         </div><!--//to-bar-->
         <div class="header-main container">
-            <div class="logo col-md-2 col-sm-2 col-xs-3">
-                <a href="<?php echo base_url('index.php/student/index')?>"  ><img id="logo" class="img-responsive center-block" src="<?php echo base_url() ?>/assets/images/ppl_logo.png" alt="Logo"></a>
+            <div class="logo col-md-4 col-sm-4 col-xs-6">
+                <img id="logo" class="img-responsive center-block" src="<?php echo base_url() ?>/assets/images/ppl_logo.png" alt="Logo">
             </div>
-            <div class="logo col-md-7 col-sm-7 col-xs-9">
-                <img class="img-responsive pull-left" src="<?php echo base_url() ?>/assets/images/ppl_words.png" alt="Logo">
+            <div class="logo col-md-5 col-sm-5 col-xs-3">
+                <img class="img-responsive center-block" src="<?php echo base_url() ?>/assets/images/vicerrectorado.png" alt="Logo">
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-6" >
+            <div class="col-md-3 col-sm-3 col-xs-3" >
                 <a href="http://www.fcnm.espol.edu.ec/" ><img class="img-responsive center-block" src="<?php echo base_url() ?>/assets/images/fcnm_logo.png" alt="Logo"></a>
             </div>
         </div><!--//header-main-->
