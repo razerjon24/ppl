@@ -36,6 +36,7 @@ class Course extends CI_Controller {
             $this->load->helper('string');
             if($this->course_model->course_checker($course_id) != 1) {
                 $this->load->library('email');
+                $req_data = array(0,0,0,0);
                 while (($fileop = fgetcsv($handle, 1000, ",")) !== false) {
                     if ($data_flag != 0) {
                         $student_id = $fileop[$req_data[0]-1];
@@ -87,22 +88,21 @@ class Course extends CI_Controller {
                     } else {
                         if(count($fileop)>=4 && !empty($fileop[3])){
                             $req_counter = 0;
-                            $req_data = array(0,0,0,0);
                             for($i = 1; $i < (count($fileop)+1) ; $i++){
                                 if($req_counter!=5 && !empty($fileop[$i-1])){
-                                    if(strcasecmp($fileop[$i-1],"Registration Id")==0 && $req_data[0]==0){
+                                    if(strcasecmp($fileop[$i-1],"id")==0 && $req_data[0]==0){
                                         $req_data[0]=$i;
                                         $req_counter++;
                                     }
-                                    elseif(strcasecmp($fileop[$i-1],"Last Name")==0 && $req_data[1]==0){
+                                    elseif(strcasecmp($fileop[$i-1],"lname")==0 && $req_data[1]==0){
                                         $req_data[1]=$i;
                                         $req_counter++;
                                     }
-                                    elseif(strcasecmp($fileop[$i-1],"First Name")==0 && $req_data[2]==0){
+                                    elseif(strcasecmp($fileop[$i-1],"fname")==0 && $req_data[2]==0){
                                         $req_data[2]=$i;
                                         $req_counter++;
                                     }
-                                    elseif((strcasecmp($fileop[$i-1],"Email")==0 || strcasecmp($fileop[$i-1],"E-mail")==0) && $req_data[3]==0){
+                                    elseif((strcasecmp($fileop[$i-1],"email")==0 || strcasecmp($fileop[$i-1],"e-mail")==0) && $req_data[3]==0){
                                         $req_data[3]=$i;
                                         $req_counter++;
                                     }
