@@ -8,10 +8,8 @@
             url:'<?php echo site_url('evaluation/take');?>',
             success: function(result){
                 popup = document.getElementById("peer_list");
-                popup.innerHTML = result;
-                popup.style.visibility = "visible";
-                $('#peer_list').bPopup()
-
+                popup.appendChild(result);
+                $('#peer_list').bPopup();
             }
         });
     }
@@ -23,9 +21,7 @@
             success: function(result){
                 popup = document.getElementById("peer_list");
                 popup.innerHTML = result;
-                popup.style.visibility = "visible";
-                $('#peer_list').bPopup()
-
+                $('#peer_list').bPopup();
             }
         });
     }
@@ -37,9 +33,7 @@
             success: function(result){
                 popup = document.getElementById("peer_list");
                 popup.innerHTML = result;
-                popup.style.visibility = "visible";
-                $('#peer_list').bPopup()
-
+                $('#peer_list').bPopup();
             }
         });
     }
@@ -167,6 +161,6 @@ elseif(!empty($courses)){
         $(e.target).addClass('active'); // activated list-item
     });
 </script>
-<div id="peer_list" class="panel panel-primary" style="display:none"></div>
+<div id="peer_list" style="display:none"></div>
 </div>
 </div>

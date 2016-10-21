@@ -59,21 +59,21 @@ class Evaluation extends CI_Controller {
                 $evaluation_student_id = $this->evaluation_model->get_evaluation_student_id($evaluation_id[0]->Evaluation_id,$student->Registration_number);
                 if($type === 'Team'){
                     $this->evaluation_model->register_team_assessment($evaluation_student_id[0]->Evaluation_student_id);
-                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new ".$type." evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br>http://ppl.espol.edu.ec";
+                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new ".$type." evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
                 }
                 elseif($type === 'Peer'){
                     $students_by_group = $this->course_model->get_student_by_group($course_id, $student->Group_number);
-                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new ".$type." evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br>http://ppl.espol.edu.ec";
+                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new ".$type." evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
                     foreach($students_by_group as $student_group){
                         if($student->Registration_number != $student_group->Registration_number)
                             $this->evaluation_model->register_peer_assessment($evaluation_student_id[0]->Evaluation_student_id, $student_group->Registration_number);
                     }
                 }
                 elseif($type === 'Self'){
-                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new <strong>".$type."</strong> evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br>http://ppl.espol.edu.ec";
+                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new <strong>".$type."</strong> evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
                     $this->evaluation_model->register_self_assessment($evaluation_student_id[0]->Evaluation_student_id);
                 }
-                $this->email->from('ppl@espol.edu.ec', 'ppl');
+                $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
                 $this->email->to($student->Email);
                 $this->email->subject('New Evaluation');
                 $this->email->message($email_body);

@@ -27,7 +27,7 @@
                 if(!empty($evaluations)){
                     echo "<table id='evaluation_list'>";
                     $i = 1;
-                    echo "<tr><th style='width: 6%'>#</th><th style='width: 26%'>STARTS</th><th style='width: 26%'>ENDS</th><th style='width: 13%'>PROJECT</th><th style='width: 21%'>FORMAT</th><th>REPORT</th></tr>";
+                    echo "<tr style='width: 100%'><th style='width: 6%'>#</th><th style='width: 26%'>STARTS</th><th style='width: 26%'>ENDS</th><th style='width: 13%'>PROJECT</th><th style='width: 23%'>FORMAT</th><th>REPORT</th></tr>";
                     foreach($evaluations as $evaluation){
                         echo "<tr><td>$i</td><td>".date('M j\, Y',strtotime($evaluation->Evaluation_start))."</td><td>".date('M j\, Y',strtotime($evaluation->Evaluation_end))."</td><td>$evaluation->Project</td><td>$evaluation->Format</td><td><a href=".base_url()."index.php/evaluation/preview/".$courseInfo[0]->Course_id."/".$evaluation->Evaluation_number."/".$evaluation->Project.">".$evaluation->Type."</a></td></tr>";
                         $i++;
