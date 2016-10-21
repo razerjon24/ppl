@@ -127,7 +127,6 @@ class Evaluation extends CI_Controller {
         if($course_id != null && $evaluation_number != null && $project_number != null && $this->session->userdata('user')=='student'){
             $this->load->model('course_model');
             $this->load->model('evaluation_model');
-            $this->load->view('home_footer');
             $registration_id = $this->session->userdata('user_id');
             $courses_validator = $this->course_model->courseValidatorStudent($course_id,$registration_id);
             if($courses_validator){
@@ -136,7 +135,7 @@ class Evaluation extends CI_Controller {
                 $course = $this->course_model->getCourse_byId($course_id);
                 if(!empty($peer_list)){
                     echo "<div class='panel panel-primary' style='margin-bottom: 0'>";
-                    echo "<div class='panel-heading' style='text-align: left; text-align: center'>Group's Member List</div>";
+                    echo "<div class='panel-heading' style='text-align: left; text-align: center'>Group List</div>";
                     echo "<div class='panel-body' style='text-align: left;text-align: center; max-height: 150px; overflow: auto'>";
                     foreach ($peer_list as $peer_student) {
                         if ($peer_student->Peer_took == 0 && $peer_student->Respondent != $this->session->userdata('user_id')) {
@@ -227,6 +226,7 @@ class Evaluation extends CI_Controller {
                     $this->load->view('student_head',$this->data);
                     $this->data['evaluation'] = $evaluation;
                     $this->load->view('evaluation_team', $this->data);
+                    $this->load->view('home_footer');
                 } else {
                     echo "<script>window.location.href='".base_url("index.php/student")."';</script>";
                 }

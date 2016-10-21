@@ -192,7 +192,7 @@ class Account extends CI_Controller
                 $this->load->model('account_model');
                 $username = $_POST['username'];
                 $password = $_POST['password'];
-                $email_body = "Hello!<br><br>Your new account information is:<br><br><strong>Username: </strong>".$username."<br><strong>Password: </strong>".$password."<br><br>P.S. We are still in beta, any bugs report to ppl.espol@gmail.com<br>PPL website currently supports Google Chrome<br>http://ppl.espol.edu.ec";
+                $email_body = "Hello!<br><br>Your new account information is:<br><br><strong>Username: </strong>".$username."<br><strong>Password: </strong>".$password."<br><br>P.S. We are still in beta, any bugs report to ppl.espol@gmail.com<br>PPL website currently supports Google Chrome<br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
                 $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
                 $this->email->to($username);
                 $this->email->subject('Forgot password PPL');
