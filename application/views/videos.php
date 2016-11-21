@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <head>
+    <link rel="stylesheet" href="<?php echo base_url() ?>/assets/css/video.css">
     <script type="text/javascript" src="<?php echo base_url() ?>assets/js/video.js"></script>
 </head>
 <!-- ******CONTENT****** -->
@@ -33,10 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     echo '<div class="details col-md-8 col-sm-5 col-xs-5">';
                     echo '<h2 class="title"><a>' . $video->nombre . '</a></h2>';
                     echo '<p class="lead">' . $video->descripcion . '</p>';
-
-
                     echo '<a class="btn btn-primary pull-right btn-lg watch" onclick="onVideoClick(\''.$video->url.'\',this)">Watch now  <i class="fa fa-chevron-right"></i></a>';
-
                     echo '</div>';
                     echo '</article>';
                 }
@@ -49,13 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             else {
                 echo '<ul class="custom-list-style">';
                 foreach ($modulos as $modulo){
-
-
                     echo '<li><i class="fa fa-caret-square-o-right fa-2x"></i>';
-
-                   
-
-
                     echo '<a class="lead" href="'.base_url("index.php/video/index/modulo".$modulo->idmodulo).'">'.$modulo->modulo.'</a>';
                     echo '</li>';
                 }
@@ -97,3 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         document.getElementById("video").setAttribute('src',theLink);
     }
 </script>
+
+
+
+

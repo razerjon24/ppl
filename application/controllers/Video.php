@@ -5,7 +5,6 @@ class Video extends CI_Controller
     {
         parent::__construct();
     }
-
     public function index($idmodulo = null){
         $user = $this->session->userdata('user');
         if(!empty($user)){
@@ -54,15 +53,7 @@ class Video extends CI_Controller
                 $config['first_link'] = FALSE;
                 $config['last_link'] = FALSE;
                 $config['use_page_numbers'] = TRUE;
-
-
                 $config['first_url'] = base_url().'/index.php/video/index/modulo'.$idmodulo;
-
-                $config['first_url'] = base_url().'/index.php/video';
-
-
-                $config['first_url'] = base_url().'/index.php/video/index/modulo'.$idmodulo;
-
                 $this->pagination->initialize($config);
                 $data['links'] = $this->pagination->create_links();
                 $data['videos'] = $videos;

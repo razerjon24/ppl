@@ -25,8 +25,7 @@ $config['global_xss_filtering'] = TRUE;
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://www.ppl.espol.edu.ec/';
-//$config['base_url'] = 'http://www.ppl.com/';
+$config['base_url'] = 'http://www.ppl.espol.edu.ec';
 
 /*
 |--------------------------------------------------------------------------

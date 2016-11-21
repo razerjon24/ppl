@@ -296,30 +296,30 @@ class Course_model extends CI_Model{
         return $query->result();
     }
 
-//    /*  @function get_student_evaluation_info
-//     *  @params $course_id string, $registration_id string
-//     *  @description Function that get evaluation_student_id from given course and registration ID
-//     *  @return array
-//     * */
-//    public function get_student_evaluation_info($course_id, $registration_id){
-//        $this->db->from('evaluation_student');
-//        $this->db->join('evaluation','evaluation.Evaluation_id = evaluation_student.Evaluation_id');
-//        $this->db->where('evaluation.Course_id',$course_id);
-//        $this->db->where('evaluation_student.Registration_number',$registration_id);
-//        $query = $this->db->get();
-//        return $query->result();
-//    }
+    /*  @function get_student_evaluation_info
+     *  @params $course_id string, $registration_id string
+     *  @description Function that get evaluation_student_id from given course and registration ID
+     *  @return array
+     * */
+    public function get_student_evaluation_info($course_id, $registration_id){
+        $this->db->from('evaluation_student');
+        $this->db->join('evaluation','evaluation.Evaluation_id = evaluation_student.Evaluation_id');
+        $this->db->where('evaluation.Course_id',$course_id);
+        $this->db->where('evaluation_student.Registration_number',$registration_id);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
-//    /*  @function removeEvaluations
-//     *  @params $evaluation_student_id integer
-//     *  @description Function that remove evaluations from student
-//     *  @return null
-//     * */
-//    public function removeEvaluations($evaluation_student_id){
-//        $tables = array('peer_evaluation','team_evaluation','self_evaluation','evaluation_student');
-//        $this->db->where('Evaluation_student_id',$evaluation_student_id);
-//        $this->db->delete($tables);
-//    }
+    /*  @function removeEvaluations
+     *  @params $evaluation_student_id integer
+     *  @description Function that remove evaluations from student
+     *  @return null
+     * */
+    public function removeEvaluations($evaluation_student_id){
+        $tables = array('peer_evaluation','team_evaluation','self_evaluation','evaluation_student');
+        $this->db->where('Evaluation_student_id',$evaluation_student_id);
+        $this->db->delete($tables);
+    }
 
     /*  @function removeStudent
      *  @params $registration_id integer
@@ -327,37 +327,37 @@ class Course_model extends CI_Model{
      *  @return null
      * */
     function removeStudent($registration_id){
-        $tables = array('registration');
+        $tables = array('groups', 'registration');
         $this->db->where('Registration_id', $registration_id);
         $this->db->delete($tables);
     }
 
-//    /*  @function get_student_evaluation_info
-//     *  @params $course_id string, $registration_id string
-//     *  @description Function that get evaluation_student_id from given course and registration ID
-//     *  @return array
-//     * */
-//    public function get_evaluator_respondent($course_id, $registration_id){
-//        $this->db->from('evaluation_student');
-//        $this->db->join('evaluation','evaluation.Evaluation_id = evaluation_student.Evaluation_id');
-//        $this->db->join('peer_evaluation','peer_evaluation.Evaluation_student_id = evaluation_student.Evaluation_student_id');
-//        $this->db->where('evaluation.Course_id',$course_id);
-//        $this->db->where('peer_evaluation.Respondent',$registration_id);
-//        $query = $this->db->get();
-//        return $query->result();
-//    }
+    /*  @function get_student_evaluation_info
+     *  @params $course_id string, $registration_id string
+     *  @description Function that get evaluation_student_id from given course and registration ID
+     *  @return array
+     * */
+    public function get_evaluator_respondent($course_id, $registration_id){
+        $this->db->from('evaluation_student');
+        $this->db->join('evaluation','evaluation.Evaluation_id = evaluation_student.Evaluation_id');
+        $this->db->join('peer_evaluation','peer_evaluation.Evaluation_student_id = evaluation_student.Evaluation_student_id');
+        $this->db->where('evaluation.Course_id',$course_id);
+        $this->db->where('peer_evaluation.Respondent',$registration_id);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
-//    /*  @function removeStudentRespondent
-//     *  @params $evaluator_student_id, $respondent_id
-//     *  @description Function that remove student as respondent in peer evaluation.
-//     *  @return null
-//     * */
-//    function removeStudentRespondent($evaluator_student_id, $respondent_id){
-//        $tables = array('peer_evaluation');
-//        $this->db->where('Evaluation_student_id', $evaluator_student_id);
-//        $this->db->where('Respondent',$respondent_id);
-//        $this->db->delete($tables);
-//    }
+    /*  @function removeStudentRespondent
+     *  @params $evaluator_student_id, $respondent_id
+     *  @description Function that remove student as respondent in peer evaluation.
+     *  @return null
+     * */
+    function removeStudentRespondent($evaluator_student_id, $respondent_id){
+        $tables = array('peer_evaluation');
+        $this->db->where('Evaluation_student_id', $evaluator_student_id);
+        $this->db->where('Respondent',$respondent_id);
+        $this->db->delete($tables);
+    }
 
     /*  @function update_student_password
      *  @params $registration_id string, $new_password string

@@ -80,13 +80,13 @@
             </div>
         </div><!--//to-bar-->
         <div class="header-main container">
-            <div class="logo col-md-4 col-sm-4 col-xs-6">
-                <img id="logo" class="img-responsive center-block" src="<?php echo base_url() ?>/assets/images/ppl_logo.png" alt="Logo">
+            <div class="logo col-md-2 col-sm-2 col-xs-3">
+                <a href="<?php echo base_url('index.php/student/index')?>"  ><img id="logo" class="img-responsive center-block" src="<?php echo base_url() ?>/assets/images/ppl_logo.png" alt="Logo"></a>
             </div>
-            <div class="logo col-md-5 col-sm-5 col-xs-3">
-                <img class="img-responsive center-block" src="<?php echo base_url() ?>/assets/images/vicerrectorado.png" alt="Logo">
+            <div class="logo col-md-7 col-sm-7 col-xs-9">
+                <img class="img-responsive pull-left" src="<?php echo base_url() ?>/assets/images/ppl_words.png" alt="Logo">
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-3" >
+            <div class="col-md-3 col-sm-3 col-xs-6" >
                 <a href="http://www.fcnm.espol.edu.ec/" ><img class="img-responsive center-block" src="<?php echo base_url() ?>/assets/images/fcnm_logo.png" alt="Logo"></a>
             </div>
         </div><!--//header-main-->
@@ -104,7 +104,7 @@
             </div><!--//navbar-header-->
             <div class="navbar-collapse collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <?php if(isset($video) or isset($contact) or isset($advisory)){
+                    <?php if(isset($video) or isset($contact)){
                         echo '<li class="nav-item"><a href="'.base_url('index.php/student/index').'">Home</a></li>';
                     }
                     else{
@@ -115,12 +115,6 @@
                     }
                     else{
                         echo '<li class="nav-item"><a href="'.base_url('index.php/video').'">Videos <? echo base_url();?></a></li>';
-                    }?>
-                    <?php if(isset($advisory)){
-                        echo '<li class="nav-item active"><a href="'.base_url('index.php/advisory').'">Advisory <? echo base_url();?></a></li>';
-                    }
-                    else{
-                        echo '<li class="nav-item"><a href="'.base_url('index.php/advisory').'">Advisory <? echo base_url();?></a></li>';
                     }?>
                     <li class="nav-item"><a href="https://app.perusall.com">Perusall</a></li>
                     <?php if(isset($about)){

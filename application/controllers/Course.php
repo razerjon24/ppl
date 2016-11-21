@@ -10,7 +10,6 @@ class Course extends CI_Controller {
             $this->data['instructor_name'] = $this->session->userdata('user_name');
             $this->load->view('admin_head',$this->data);
             $this->load->view('new_course');
-            $this->load->view('home_footer');
         }
         else{
             echo "<script>window.location.href='".base_url("index.php")."';</script>";
@@ -36,7 +35,6 @@ class Course extends CI_Controller {
             $this->load->helper('string');
             if($this->course_model->course_checker($course_id) != 1) {
                 $this->load->library('email');
-                $req_data = array(0,0,0,0);
                 while (($fileop = fgetcsv($handle, 1000, ",")) !== false) {
                     if ($data_flag != 0) {
                         $student_id = $fileop[$req_data[0]-1];
@@ -53,7 +51,7 @@ class Course extends CI_Controller {
                                     $this->course_model->student_registration($course_id, $student_id);
                                     $id_registration = $this->course_model->get_student_registration_id($course_id, $student_id);
                                     $this->course_model->group_member_register(0, $id_registration[0]->Registration_id);
-                                    $email_body = "<!DOCTYPE html><html><body><p>You have been registered in Peer Project Learning (PPL) website.</p><p>Additionally, you are registered in the course: <strong>".$course_name."</strong></p><p>Available assessments will be notified on the webpage.</p><p>Your account information is:</p><p><strong>Registration ID: </strong>".$student_id."</p><p><strong>Username: </strong>".$student_email."</p><p><strong>Password: </strong>".$password_email."</p><p>P.S. We are still in beta, any bugs report to ppl@espol.edu.ec</p><p>Hope you log in soon!</p><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a></body></html>";
+                                    $email_body = "<!DOCTYPE html><html><body><p>You have been registered in Peer Project Learning (PPL) website.</p><p>Additionally, you are registered in the course: <strong>".$course_name."</strong></p><p>Available assessments will be notified on the webpage.</p><p>Your account information is:</p><p><strong>Registration ID: </strong>".$student_id."</p><p><strong>Username: </strong>".$student_email."</p><p><strong>Password: </strong>".$password_email."</p><p>P.S. We are still in beta, any bugs report to ppl@espol.edu.ec</p><p>Hope you log in soon!</p><p><a href='http://ppl.espol.edu.ec'>PPL website</a></p></body></html>";
                                     $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
                                     $this->email->to($student_email);
                                     $this->email->subject('Welcome to Peer Project Learning');
@@ -65,7 +63,7 @@ class Course extends CI_Controller {
                                         $this->course_model->student_registration($course_id, $student_id);
                                         $id_registration = $this->course_model->get_student_registration_id($course_id, $student_id);
                                         $this->course_model->group_member_register(0, $id_registration[0]->Registration_id);
-                                        $email_body = "Hello!<br><br>You have been registered in the course: <span style='text-decoration: underline'>".$course_name."</span>.<br>Available assessments will be notified on the webpage.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
+                                        $email_body = "Hello!<br><br>You have been registered in the course: <span style='text-decoration: underline'>".$course_name."</span>.<br>Available assessments will be notified on the webpage.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>PPL website</a>";
                                         $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
                                         $this->email->to($student_email);
                                         $this->email->subject('New Course');
@@ -88,21 +86,22 @@ class Course extends CI_Controller {
                     } else {
                         if(count($fileop)>=4 && !empty($fileop[3])){
                             $req_counter = 0;
+                            $req_data = array(0,0,0,0);
                             for($i = 1; $i < (count($fileop)+1) ; $i++){
                                 if($req_counter!=5 && !empty($fileop[$i-1])){
-                                    if(strcasecmp($fileop[$i-1],"id")==0 && $req_data[0]==0){
+                                    if(strcasecmp($fileop[$i-1],"Registration Id")==0 && $req_data[0]==0){
                                         $req_data[0]=$i;
                                         $req_counter++;
                                     }
-                                    elseif(strcasecmp($fileop[$i-1],"lname")==0 && $req_data[1]==0){
+                                    elseif(strcasecmp($fileop[$i-1],"Last Name")==0 && $req_data[1]==0){
                                         $req_data[1]=$i;
                                         $req_counter++;
                                     }
-                                    elseif(strcasecmp($fileop[$i-1],"fname")==0 && $req_data[2]==0){
+                                    elseif(strcasecmp($fileop[$i-1],"First Name")==0 && $req_data[2]==0){
                                         $req_data[2]=$i;
                                         $req_counter++;
                                     }
-                                    elseif((strcasecmp($fileop[$i-1],"email")==0 || strcasecmp($fileop[$i-1],"e-mail")==0) && $req_data[3]==0){
+                                    elseif((strcasecmp($fileop[$i-1],"Email")==0 || strcasecmp($fileop[$i-1],"E-mail")==0) && $req_data[3]==0){
                                         $req_data[3]=$i;
                                         $req_counter++;
                                     }
@@ -155,7 +154,7 @@ class Course extends CI_Controller {
                 $this->course_model->student_registration($course_id, $st_registration);
                 $id_registration = $this->course_model->get_student_registration_id($course_id, $st_registration);
                 $this->course_model->group_member_register(0, $id_registration[0]->Registration_id);
-                $email_body = "<!DOCTYPE html><html><body><p>You have been registered in Peer Project Learning (PPL) website.</p><p>Additionally, you are registered in the course: <strong>".$course_name."</strong></p><p>Available assessments will be notified on the webpage.</p><p>Your account information is:</p><p><strong>Registration ID: </strong>".$st_registration."</p><p><strong>Username: </strong>".$student_email."</p><p><strong>Password: </strong>".$password_email."</p><p>P.S. We are still in beta, any bugs report to ppl@espol.edu.ec</p><p>Hope you log in soon!</p><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a></body></html>";
+                $email_body = "<!DOCTYPE html><html><body><p>You have been registered in Peer Project Learning (PPL) website.</p><p>Additionally, you are registered in the course: <strong>".$course_name."</strong></p><p>Available assessments will be notified on the webpage.</p><p>Your account information is:</p><p><strong>Registration ID: </strong>".$st_registration."</p><p><strong>Username: </strong>".$student_email."</p><p><strong>Password: </strong>".$password_email."</p><p>P.S. We are still in beta, any bugs report to ppl@espol.edu.ec</p><p>Hope you log in soon!</p><p><a href='http://ppl.espol.edu.ec'>PPL website</a></p></body></html>";
                 $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
                 $this->email->to($student_email);
                 $this->email->subject('Welcome to Peer Project Learning');
@@ -167,7 +166,7 @@ class Course extends CI_Controller {
                     $this->course_model->student_registration($course_id, $st_registration);
                     $id_registration = $this->course_model->get_student_registration_id($course_id, $st_registration);
                     $this->course_model->group_member_register(0, $id_registration[0]->Registration_id);
-                    $email_body = "Hello!<br><br>You have been registered in the course: <span style='text-decoration: underline'>".$course_name."</span>.<br>Available assessments will be notified on the webpage.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
+                    $email_body = "Hello!<br><br>You have been registered in the course: <span style='text-decoration: underline'>".$course_name."</span>.<br>Available assessments will be notified on the webpage.<br><br><strong>Remember to evaluate your teammates.</strong><br>http://ppl.espol.edu.ec";
                     $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
                     $this->email->to($student_email);
                     $this->email->subject('New Course');
@@ -196,14 +195,14 @@ class Course extends CI_Controller {
             $st_registration = $_POST['st_reg'];
             if($this->course_model->student_registration_checker($st_registration,$course_id) == true){
                 $id_registration = $this->course_model->get_student_registration_id($course_id, $st_registration);
-//                $student_evaluation_info = $this->course_model->get_student_evaluation_info($course_id,$st_registration);
-//                foreach($student_evaluation_info as $evaluation_info){
-//                    $this->course_model->removeEvaluations($evaluation_info->Evaluation_student_id);
-//                }
-//                $evaluator_Array = $this->course_model->get_evaluator_respondent($course_id,$st_registration);
-//                foreach($evaluator_Array as $evaluator){
-//                    $this->course_model->removeStudentRespondent($evaluator->Evaluation_student_id,$st_registration);
-//                }
+                $student_evaluation_info = $this->course_model->get_student_evaluation_info($course_id,$st_registration);
+                foreach($student_evaluation_info as $evaluation_info){
+                    $this->course_model->removeEvaluations($evaluation_info->Evaluation_student_id);
+                }
+                $evaluator_Array = $this->course_model->get_evaluator_respondent($course_id,$st_registration);
+                foreach($evaluator_Array as $evaluator){
+                    $this->course_model->removeStudentRespondent($evaluator->Evaluation_student_id,$st_registration);
+                }
                 $this->course_model->removeStudent($id_registration[0]->Registration_id);
                 echo "<script> alert('Student removed successfully'); window.location.href='".base_url("index.php/admin/index/".$course_id)."';</script>";
             }
@@ -242,10 +241,10 @@ class Course extends CI_Controller {
                         array_push($teammates, $member->Names." ".$member->Surnames);
                 }
                 $team = implode("<br>",$teammates);
-                $email_body = "<!DOCTYPE html><html><body>You have been added to group <strong>".$group[0]->Group_number."</strong>.<br>Course: <span style='text-decoration: underline'>".$course_name."</span>.<br><br>Your new teammates are:<br><br><strong>".$team."</strong><br><br>Remember to evaluate your teammates in future assessments!<br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a></body></html>";
+                $email_body = "<!DOCTYPE html><html><body>You have been added to group <strong>".$group[0]->Group_number."</strong>.<br>Course: <span style='text-decoration: underline'>".$course_name."</span>.<br><br>Your new teammates are:<br><br><strong>".$team."</strong><br>Remember to evaluate your teammates in future assessments!<br><a href='http://ppl.espol.edu.ec'>PPL webpage</a></body></html>";
                 $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
                 $this->email->to($student[0]->Email);
-                $this->email->subject('New group');
+                $this->email->subject('Welcome to Peer Project Learning');
                 $this->email->message($email_body);
                 $this->email->send();
             }
