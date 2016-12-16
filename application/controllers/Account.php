@@ -16,16 +16,20 @@ class Account extends CI_Controller
         if($type == "instructor"){
             $password_admin = password_hash("fisicacespol2015", PASSWORD_BCRYPT);
             $ispassword = password_verify($password,$password_admin);
-            if($email == "fisicac@espol.edu.ec" && $ispassword){
-                $teacher = $this->account_model->verify_Teacher_Account($email,$password);
-                $this->session->set_userdata('user', 'teacher');
-                $this->session->set_userdata('user_id', $teacher->Teacher_id);
-                $this->session->set_userdata('user_name',ucwords(strtolower($teacher->Names." ".$teacher->Surnames)));
-                echo "<script> window.location.href='".base_url('index.php/admin')."';</script>";
-            }
-            else{
-                echo "<script> alert('Sorry, student login is allowed at the moment'); window.location.href='".base_url('index.php')."';</script>";
-            }
+	    if(!$ispassword){
+	        $password_admin = password_hash("fisicab2016", PASSWORD_BCRYPT);
+                $ispassword = password_verify($password,$password_admin);	
+            	if($email == "fisicac@espol.edu.ec" && $ispassword){
+                    $teacher = $this->account_model->verify_Teacher_Account($email,$password);
+                    $this->session->set_userdata('user', 'teacher');
+                    $this->session->set_userdata('user_id', $teacher->Teacher_id);
+                    $this->session->set_userdata('user_name',ucwords(strtolower($teacher->Names." ".$teacher->Surnames)));
+                    echo "<script> window.location.href='".base_url('index.php/admin')."';</script>";
+                }
+                else{
+                    echo "<script> alert('Sorry, student login is allowed at the moment'); window.location.href='".base_url('index.php')."';</script>";
+                }
+	    }
         }
         elseif($type == "student"){
             if($this->account_model->verify_Email_Student($email)){

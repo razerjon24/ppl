@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 foreach ($videos as $video) {
                     echo '<article class="news-item page-row has-divider clearfix row">';
                     echo '<figure class="thumb col-md-4 col-sm-7 col-xs-6">';
-                    echo '<img class="img-responsive center-block" src="' . base_url() . $video->imagen . '" alt="" />';
+                    echo '<img class="img-responsive center-block" src="' . $video->imagen . '" alt="" />';
                     echo '</figure>';
                     echo '<div class="details col-md-8 col-sm-5 col-xs-5">';
                     echo '<h2 class="title"><a>' . $video->nombre . '</a></h2>';
