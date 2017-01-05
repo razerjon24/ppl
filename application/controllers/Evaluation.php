@@ -45,9 +45,13 @@ class Evaluation extends CI_Controller {
 //            $course = $this->course_model->getCourse_byId($course_id);
 //            $course_name = $course[0]->Course_name;
             $project = $_POST['project'];
-            $currentDateStart = $_POST['date_start'];
+            $startDate = $_POST['date_start'];
+	    $startTime = $_POST['starttime'];
+	    $currentDateStart = $startDate.' '.$startTime;
             $date_start = date('Y-m-d H:i:s', strtotime($currentDateStart));
-            $currentDateEnd = $_POST['date_end'];
+            $endDate = $_POST['date_end'];
+	    $endTime = $_POST['endtime'];
+	    $currentDateEnd = $endDate.' '.$endTime;
             $date_end = date('Y-m-d H:i:s', strtotime($currentDateEnd));
             $format = $_POST['format'];
             $type = $_POST['type'];

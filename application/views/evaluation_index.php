@@ -2,10 +2,10 @@
 <head>
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/evaluation.js"></script>
     <link rel="stylesheet" href="<?php echo base_url();?>assets/datepicker/css/datepicker.css">
-    <script type="text/javascript" src="<?php echo base_url();?>assets/datepicker/js/datetimepicker.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>assets/datepicker/js/datepicker.js"></script>
 </head>
-<div class="row" style='width: 100%; height: 400px'>
-    <div class="col-md-offset-3 col-md-6 col-sm-6">
+<div class="row" style='width: 100%; height: 400px; margin:0'>
+    <div class="col-md-offset-1 col-md-10">
         <div class='panel panel-default'>
             <div class="panel-heading">
                 <h2 class='panel-title lead'>Assessments List of <strong><?php echo $courseInfo[0]->Course_name.' '.$courseInfo[0]->Course_id;?></strong>
@@ -16,11 +16,11 @@
             </div>
         <?php
             if(!empty($evaluations)){
-                echo "<table style='width: 100%'><tr><th style='width: 6%'>#</th><th style='width: 26%'>STARTS</th><th style='width: 26%'>ENDS</th><th style='width: 13%'>PROJECT</th><th style='width: 26%'>FORMAT</th><th>REPORT</th></tr></table>";
-                echo "<table id='evaluation_list'>";
+                echo "<table style='width: 100% ;font-size:16px; margin:0 2% 0 2%'><tr><th style='width: 6%'>#</th><th style='width: 13%'>START DATE</th><th style='width: 13%'>START TIME</th><th style='width: 13%'>END DATE</th><th style='width:13%'>END TIME</th><th style='width: 12%'>PROJECT</th><th style='width: 20%'>FORMAT</th><th>REPORT</th></tr></table>";
+                echo "<table id='evaluation_list' style='width:100%; margin:0 2% 0 2%; font-size:16px; height: 300px; overflow:auto'>";
                 $i = 1;
                 foreach($evaluations as $evaluation){
-                    echo "<tr><td style='width: 6%'>$i</td><td style='width: 26%'>".date('M j\, Y',strtotime($evaluation->Evaluation_start))."</td><td style='width: 26%'>".date('M j\, Y',strtotime($evaluation->Evaluation_end))."</td><td style='width:13%'>$evaluation->Project</td><td style='width:26%'>$evaluation->Format</td><td><a href=".base_url()."index.php/evaluation/preview/".$courseInfo[0]->Course_id."/".$evaluation->Evaluation_number."/".$evaluation->Project.">".$evaluation->Type."</a></td></tr>";
+                    echo "<tr><td style='width: 6%'>$i</td><td style='width: 13%'>".date('M j\, Y',strtotime($evaluation->Evaluation_start))."</td><td style='width:13%'>".date('g:i a',strtotime($evaluation->Evaluation_start))."</td><td style='width: 13%'>".date('M j\, Y',strtotime($evaluation->Evaluation_end))."</td><td style='width:13%'>".date('g:i a',strtotime($evaluation->Evaluation_end))."</td><td style='width:12%'>$evaluation->Project</td><td style='width:20%'>$evaluation->Format</td><td><a href=".base_url()."index.php/evaluation/preview/".$courseInfo[0]->Course_id."/".$evaluation->Evaluation_number."/".$evaluation->Project.">".$evaluation->Type."</a></td></tr>";
                     $i++;
                 }
                 echo "</table>";
@@ -32,7 +32,6 @@
             }
 
         ?>
-
         </div>
     </div>
 </div>
@@ -46,15 +45,25 @@
         <div class="panel-body">
             <form class="form_send" role='form' method='post' onsubmit="showBar()" action="<?php echo base_url('index.php/evaluation/create/'.$courseInfo[0]->Course_id)?>">
                 <div class="input-group">
-                    <label class="input-group-addon" style="width: 40%">Starts</label>
+                    <label class="input-group-addon" style="width: 40%">Start Date</label>
                     <input id="evaluation_start" class="form-control"  name="date_start" type="text" data-date-format="yyyy-mm-dd" required>
                 </div>
-                <br>
+		<br>
+		<div class="input-group" style="width: 100%">
+                    <label class="input-group-addon" style="width: 40%">Start Time</label>
+                    <input class="form-control" type ="time" name="starttime" required/>		    
+		</div>
+		<br>
                 <div class="input-group">
-                    <label class="input-group-addon" style="width: 40%">Ends</label>
+                    <label class="input-group-addon" style="width: 40%">End Date</label>
                     <input id="evaluation_end" class="form-control"  name="date_end" type="text" data-date-format="yyyy-mm-dd" required>
                 </div>
                 <br>
+		<div class="input-group" style="width: 100%">
+                    <label class="input-group-addon" style="width: 40%">End Time</label>
+                    <input class="form-control" type="time" name="endtime" required/>		    		    
+		</div>
+		<br>
                 <div class="input-group" style="width: 100%">
                     <label class="input-group-addon" style="width: 40%">Type</label>
                     <select name="type" class="form-control">
@@ -87,12 +96,12 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        $('#evaluation_start').datetimepicker().on('show', function(ev){
+        $('#evaluation_start').datepicker().on('show', function(ev){
           $('.datepicker.dropdown-menu').css('z-index',10000);
         }).on('changeDate', function(ev){
             $('.datepicker.dropdown-menu').hide();
         });
-        $('#evaluation_end').datetimepicker().on('show', function(ev){
+        $('#evaluation_end').datepicker().on('show', function(ev){
             $('.datepicker.dropdown-menu').css('z-index',10000);
         }).on('changeDate', function(ev){
             $('.datepicker.dropdown-menu').hide();

@@ -65,13 +65,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </script>
 </head>
 
-<div class="col-md-offset-1 col-md-10">
+<div class="row" style="width:100%; margin:0">
+    <div class="col-md-offset-1 col-md-10">
     <div class='panel panel-default'>
         <div class="panel-heading">
             <h2 class='panel-title lead'><strong><?php echo $course[0]->Course_name.' Project'.$evaluation[0]->Project. '</br>' .strtoupper($evaluation[0]->Type).' ASSESSMENT';?></strong>
             </h2>
         </div>
-        <div style="height: 380px; overflow: auto">
+        <div style="height: 580px; overflow: auto">
 <?php
 $i = 1;
 
@@ -118,6 +119,7 @@ echo "</table>";
 ?>
         </div>
     </div>
+</div>
 </div>
 </div>
 <div id="peer_list" class="panel panel-primary" style="display: none"></div>

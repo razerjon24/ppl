@@ -95,49 +95,51 @@ if(isset($evaluations) && !empty($evaluations)){
     echo "<div class='panel-heading'>";
     echo "<h3 class='panel-title lead'>Survey List of <strong>".$courseInfo[0]->Course_name."</strong></h3>";
     echo "</div>";
-    echo "<table style='width: 100%'><tr><th style='width: 5%'>#</th><th style='width: 18%'>STARTS</th><th style='width: 18%'>ENDS</th><th style='width: 12%'>PROJECT</th><th style='width: 24%'>EVALUATION</th><th style='width: 12%'>REPORT</th><th>STATUS</th></tr></table>";
+    echo "<table style='width: 100%'><tr><th style='width: 5%'>#</th><th style='width: 13%'>START DATE</th><th style='width: 13%'>START TIME</th><th style='width: 13%'>END DATE</th><th style='width: 13%'>END TIME</th><th style='width: 8%'>PROJECT</th><th style='width: 16%'>ASSESSMENT</th><th style='width: 8%'>REPORT</th><th>STATUS</th></tr></table>";
     echo "<table style='width: 100%'>";
     $i = 1;
     foreach($evaluations as $evaluation){
         echo "<tr style='text-align: center'><td style='width: 5%'>$i</td>";
+        echo "<td style='width: 13%'>".date('M j\, Y',strtotime($evaluation->Evaluation_start))."</td>";
         if($current_date < $evaluation->Evaluation_start)
-            echo "<td style='width: 18%; color: red'>".date('M j\, Y',strtotime($evaluation->Evaluation_start))."</td>";
+            echo "<td style='width: 13%; color: red'>".date('h:i A',strtotime($evaluation->Evaluation_start))."</td>";
         else
-            echo "<td style='width: 18%;'>".date('M j\, Y',strtotime($evaluation->Evaluation_start))."</td>";
+            echo "<td style='width: 13%;'>".date('h:i A',strtotime($evaluation->Evaluation_start))."</td>";
+        echo "<td style='width: 13%;'>".date('M j\, Y',strtotime($evaluation->Evaluation_end))."</td>";
         if($current_date > $evaluation->Evaluation_end && !$evaluation->Took)
-            echo "<td style='width: 18%; color: red'>".date('M j\, Y',strtotime($evaluation->Evaluation_end))."</td>";
+            echo "<td style='width: 13%; color: red'>".date('h:i A',strtotime($evaluation->Evaluation_end))."</td>";
         else
-            echo "<td style='width: 18%;'>".date('M j\, Y',strtotime($evaluation->Evaluation_end))."</td>";
-        echo "<td style='width: 12%'>$evaluation->Project</td>";
+            echo "<td style='width: 13%;'>".date('h:i A',strtotime($evaluation->Evaluation_end))."</td>";
+        echo "<td style='width: 8%'>$evaluation->Project</td>";
         if($current_date <= $evaluation->Evaluation_end && !$evaluation->Took && $current_date >= $evaluation->Evaluation_start) {
             if ($evaluation->Type == 'Peer') {
                 $course_id = $courseInfo[0]->Course_id;
-                echo "<td style='width: 24%'><a onclick='get_PeerList(\"$course_id\", $evaluation->Project, $evaluation->Evaluation_number, \"$evaluation->Type\")'>$evaluation->Type Assessment</a></td>";
+                echo "<td style='width: 16%'><a onclick='get_PeerList(\"$course_id\", $evaluation->Project, $evaluation->Evaluation_number, \"$evaluation->Type\")'>$evaluation->Type</a></td>";
             }
             elseif($evaluation->Type == 'Self'){
                 $course_id = $courseInfo[0]->Course_id;
-                echo "<td style='width: 24%'><a href=".base_url('index.php/evaluation/self/'.$course_id.'/'.$evaluation->Project.'/'.$evaluation->Evaluation_number).">$evaluation->Type Assessment</a></td>";
+                echo "<td style='width: 16%'><a href=".base_url('index.php/evaluation/self/'.$course_id.'/'.$evaluation->Project.'/'.$evaluation->Evaluation_number).">$evaluation->Type</a></td>";
             }
             elseif($evaluation->Type == 'Team'){
                 $course_id = $courseInfo[0]->Course_id;
-                echo "<td style='width: 24%'><a href=".base_url('index.php/evaluation/team/'.$course_id.'/'.$evaluation->Project.'/'.$evaluation->Evaluation_number).">$evaluation->Type Assessment</a></td>";
+                echo "<td style='width: 16%'><a href=".base_url('index.php/evaluation/team/'.$course_id.'/'.$evaluation->Project.'/'.$evaluation->Evaluation_number).">$evaluation->Type</a></td>";
             }
             elseif($evaluation->Type == 'Homework') {
                 $course_id = $courseInfo[0]->Course_id;
-                echo "<td style='width: 24%'><a onclick='get_PeerList(\"$course_id\", $evaluation->Project, $evaluation->Evaluation_number, \"$evaluation->Type\")'>$evaluation->Type Assessment</a></td>";
+                echo "<td style='width: 16%'><a onclick='get_PeerList(\"$course_id\", $evaluation->Project, $evaluation->Evaluation_number, \"$evaluation->Type\")'>$evaluation->Type</a></td>";
             }
         }
         else
-            echo "<td style='width: 24%'>$evaluation->Type Assessment</td>";
+            echo "<td style='width: 16%'>$evaluation->Type</td>";
         if($current_date > $evaluation->Evaluation_end && $evaluation->Took){
             if ($evaluation->Type === 'Peer')
-                echo "<td style='width: 12%'><a style='color: blue' class='glyphicon glyphicon-list-alt' onclick='get_PeerReport($evaluation->Evaluation_id,$evaluation->Group_number, $evaluation->Evaluation_student_id)'></a></td>";
+                echo "<td style='width: 8%'><a style='color: blue' class='glyphicon glyphicon-list-alt' onclick='get_PeerReport($evaluation->Evaluation_id,$evaluation->Group_number, $evaluation->Evaluation_student_id)'></a></td>";
             elseif ($evaluation->Type === 'Team')
-                echo "<td style='width: 12%'><a style='color: blue' class='glyphicon glyphicon-list-alt' onclick='get_TeamReport($evaluation->Evaluation_id,$evaluation->Group_number, $evaluation->Evaluation_student_id)'></a></td>";
+                echo "<td style='width: 8%'><a style='color: blue' class='glyphicon glyphicon-list-alt' onclick='get_TeamReport($evaluation->Evaluation_id,$evaluation->Group_number, $evaluation->Evaluation_student_id)'></a></td>";
             elseif ($evaluation->Type === 'Self')
-                echo "<td style='width: 12%'><span style='color: blue' class='glyphicon glyphicon-list-alt'></span></td>";
+                echo "<td style='width: 8%'><span style='color: blue' class='glyphicon glyphicon-list-alt'></span></td>";
             elseif ($evaluation->Type === 'Homework')
-                echo "<td style='width: 12%'><a style='color: blue' class='glyphicon glyphicon-list-alt' onclick='get_HomeworkReport($evaluation->Evaluation_id,$evaluation->Group_number, $evaluation->Evaluation_student_id)'></a></td>";
+                echo "<td style='width: 8%'><a style='color: blue' class='glyphicon glyphicon-list-alt' onclick='get_HomeworkReport($evaluation->Evaluation_id,$evaluation->Group_number, $evaluation->Evaluation_student_id)'></a></td>";
         }
         else
             echo "<td><span style='color: gray' class='glyphicon glyphicon-list-alt'></span></td>";

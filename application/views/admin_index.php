@@ -22,11 +22,13 @@
             echo "</div>";
             echo "<div style='overflow: auto ;height: 430px'>";
             foreach($courses as $course){
-                if(isset($courseID) && $course->Course_id == $courseID && $course->Viewable == 1)
-                    echo    "<a href=".base_url()."index.php/admin/index/$course->Course_id class='list-group-item lead active'>$course->Course_id<br>$course->Course_name</a>";
-                else
-                    echo    "<a href=".base_url()."index.php/admin/index/$course->Course_id class='list-group-item lead' >$course->Course_id<br>$course->Course_name</a>";
-            }
+		if($course->Viewable){
+                    if($course->Course_id == $courseID)
+                        echo    "<a href=".base_url()."index.php/admin/index/$course->Course_id class='list-group-item lead active'>$course->Course_id<br>$course->Course_name</a>";
+                    else
+                        echo    "<a href=".base_url()."index.php/admin/index/$course->Course_id class='list-group-item lead' >$course->Course_id <br>$course->Course_name</a>";
+            	}
+	    }
             echo "</div>";
             echo "</div>";
             echo "</div>";

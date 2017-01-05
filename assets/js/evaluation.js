@@ -56,7 +56,7 @@ function date_checker(){
     submit_evaluation = document.getElementById("submit_evaluation");
     Start_date = new Date(evaluation_start.value);
     End_date = new Date(evaluation_end.value);
-    if(Start_date>=End_date){
+    if(Start_date>End_date){
         alert('Start date must be set before end date');
         submit_evaluation.setAttribute('type', 'button');
     }
