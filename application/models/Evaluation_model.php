@@ -380,7 +380,6 @@ class Evaluation_model extends CI_Model
         $this->db->join('evaluation_student','evaluation_student.Evaluation_student_id = homework_evaluation.Evaluation_student_id');
         $this->db->where('evaluation_student.Evaluation_id',$evaluation_id);
         $this->db->where('homework_evaluation.Respondent',$respondent_registration_number);
-        $this->db->where('homework_evaluation.Score !=',0);
         $this->db->select_avg('homework_evaluation.Score');
         $query= $this->db->get();
         return $query->result();
@@ -425,6 +424,21 @@ class Evaluation_model extends CI_Model
         return $query->result();
     }
 
+    /*  @function get_avg_HW
+     *  @params evaluation_id integer, group number integer
+     *  @description Function that get the average of HW to calculate de WF
+     *  @return array
+     * */
+    public function get_avg_HW($evaluation_id, $group_number){
+        $this->db->from('evaluation_student');
+        $this->db->where('evaluation_student.Evaluation_id',$evaluation_id);
+        $this->db->where('evaluation_student.Group_number',$group_number);
+        $this->db->where('evaluation_student.Avg_Homework !=',0);
+        $this->db->select_avg('evaluation_student.Avg_Homework');
+        $query= $this->db->get();
+        return $query->result();
+    }
+
     /*  @function get_evaluation_team_list
      *  @params evaluation_id integer, group_number integer
      *  @description Function that obtains the list of students of a group in a evaluation
@@ -447,6 +461,18 @@ class Evaluation_model extends CI_Model
         $this->db->from('evaluation_student');
         $this->db->where('evaluation_student.Evaluation_student_id',$respondent_evaluation_student_id);
         $data = array('Evaluation_WF'=>$evaluation_WF);
+        $this->db->update('evaluation_student',$data);
+    }
+
+    /*  @function register_student_evaluation_WF_HW
+     *  @params respondent_evaluation_id integer, AVGScore float
+     *  @description Function that updates the evaluation WF of the respondent
+     *  @return null
+     * */
+    public function register_student_evaluation_WF_HW($respondent_evaluation_student_id,$evaluation_WF){
+        $this->db->from('evaluation_student');
+        $this->db->where('evaluation_student.Evaluation_student_id',$respondent_evaluation_student_id);
+        $data = array('Evaluation_WF_HW'=>$evaluation_WF);
         $this->db->update('evaluation_student',$data);
     }
 

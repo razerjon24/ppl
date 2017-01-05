@@ -88,7 +88,7 @@
                 </div>";
     }?>
 <?php
-$current_date = date('Y-m-d');
+$current_date = date('Y-m-d H:i:s');
 if(isset($evaluations) && !empty($evaluations)){
     echo "<div class='col-md-6 col-sm-6' style='border: none'>";
     echo "<div class='panel panel-default'>";

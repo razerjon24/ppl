@@ -45,8 +45,10 @@ class Evaluation extends CI_Controller {
 //            $course = $this->course_model->getCourse_byId($course_id);
 //            $course_name = $course[0]->Course_name;
             $project = $_POST['project'];
-            $date_start = $_POST['date_start'];
-            $date_end = $_POST['date_end'];
+            $currentDateStart = $_POST['date_start'];
+            $date_start = date('Y-m-d H:i:s', strtotime($currentDateStart));
+            $currentDateEnd = $_POST['date_end'];
+            $date_end = date('Y-m-d H:i:s', strtotime($currentDateEnd));
             $format = $_POST['format'];
             $type = $_POST['type'];
             $evaluation_number = $this->evaluation_model->get_evaluation_number($course_id,$project);
@@ -425,6 +427,15 @@ class Evaluation extends CI_Controller {
                             if($member->Registration_number != $this->session->userdata('user_id')){
                                 $average = $this->evaluation_model->get_avg_homework_assessment_score($evaluation[0]->Evaluation_id, $member->Registration_number);
                                 $this->evaluation_model->register_student_avg_homework_score($member->Evaluation_student_id, round($average[0]->Score,2));
+                            }
+                        }
+                        $team_list = $this->evaluation_model->get_evaluation_team_list($evaluation[0]->Evaluation_id,$evaluation[0]->Group_number);
+                        $avg_HW = $this->evaluation_model->get_avg_HW($evaluation[0]->Evaluation_id, $evaluation[0]->Group_number);
+                        foreach($team_list as $student){
+                            if($student->Avg_Peer != 0 && $student->Registration_number != $this->session->userdata('user_id')) {
+                                $average = $this->evaluation_model->get_avg_homework_assessment_score($evaluation[0]->Evaluation_id, $student->Registration_number);
+                                $evaluation_WF = round($average[0]->Score, 2) / round($avg_HW[0]->Avg_Peer, 2);
+                                $this->evaluation_model->register_student_evaluation_WF_HW($student->Evaluation_student_id, round($evaluation_WF, 2));
                             }
                         }
                         echo "<script> alert('All peer evaluations have been taken!'); window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";

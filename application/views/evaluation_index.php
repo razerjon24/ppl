@@ -87,12 +87,12 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        $('#evaluation_start').datepicker().on('show', function(ev){
+        $('#evaluation_start').datetimepicker().on('show', function(ev){
           $('.datepicker.dropdown-menu').css('z-index',10000);
         }).on('changeDate', function(ev){
             $('.datepicker.dropdown-menu').hide();
         });
-        $('#evaluation_end').datepicker().on('show', function(ev){
+        $('#evaluation_end').datetimepicker().on('show', function(ev){
             $('.datepicker.dropdown-menu').css('z-index',10000);
         }).on('changeDate', function(ev){
             $('.datepicker.dropdown-menu').hide();

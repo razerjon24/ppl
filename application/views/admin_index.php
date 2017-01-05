@@ -15,14 +15,14 @@
         }
         else{
             echo "<div class='row' style='width: 100%; height: 500px'>";
-            echo "<div class='col-md-offset-2 col-sm-offset-1 col-md-2 col-sm-3' style='padding-right: 0'>";
+            echo "<div class='col-md-offset-1 col-md-3' style='padding-right: 0'>";
             echo "<div class='panel panel-info' style='border: none'>";
             echo "<div class='panel-heading'>";
-            echo "<h2 class='panel-title lead'><strong>My Courses</strong><a class='pull-right' href='#'><span data-toggle='tooltip' title='Remove Course' class='glyphicon glyphicon-minus-sign lead' style='margin-bottom: 0'></span></a><a class='pull-right' style='margin-right: 1%;' href='".base_url('index.php/course/create')."'><span class='glyphicon glyphicon-plus-sign lead' style='margin-bottom: 0;' data-toggle='tooltip' title='Add Course'></span></a></h2>";
+            echo "<h2 class='panel-title lead'><strong>My Courses</strong><a class='pull-right' style='margin-right: 1%;' href='".base_url('index.php/course/create')."'><span class='glyphicon glyphicon-plus-sign lead' style='margin-bottom: 0;' data-toggle='tooltip' title='Add Course'></span></a></h2>";
             echo "</div>";
-            echo "<div style='overflow: auto ;height: 320px'>";
+            echo "<div style='overflow: auto ;height: 430px'>";
             foreach($courses as $course){
-                if(isset($courseID) && $course->Course_id == $courseID)
+                if(isset($courseID) && $course->Course_id == $courseID && $course->Viewable == 1)
                     echo    "<a href=".base_url()."index.php/admin/index/$course->Course_id class='list-group-item lead active'>$course->Course_id<br>$course->Course_name</a>";
                 else
                     echo    "<a href=".base_url()."index.php/admin/index/$course->Course_id class='list-group-item lead' >$course->Course_id<br>$course->Course_name</a>";
@@ -42,7 +42,7 @@
 //
 //            echo "</div>";
 //            echo "</div>";
-            echo "<div class='col-md-6 col-sm-7' style='border: none'>";
+            echo "<div class='col-md-7' style='border: none'>";
             echo "<div class='panel panel-default'>";
             echo "<div class='panel-heading'>";
             if(isset($groups) && !empty($groups)){
@@ -57,7 +57,7 @@
                 echo "</div>";
                 $i=0;
                 echo "<table style='width: 100%'><tr><th style='width: 16%'>REG. ID</th><th style='width: 24%'>FIRST NAME</th><th style='width: 24%'>LAST NAME</th><th style='width: 24%'>EMAIL</th><th >GROUP</th></tr></table>";
-                echo "<div style='overflow: auto ;height: 300px'>";
+                echo "<div style='overflow: auto ;height: 400px'>";
                 echo "<table style='width: 100%'>";
                 foreach($groups as $group) {
                     echo "<tr><td style='width: 16%'><input type='text' style='border: none; text-overflow: ellipsis; background-color: transparent; width: 100%'  tabindex='-1' value='$group->Registration_number' name='students[$i][id]' readonly></td><td style='width: 24%'><input type='text' style='border: none ; background-color: transparent; text-overflow: ellipsis; width: 100%' tabindex='-1' value='".strtoupper($group->Names)."' readonly></td><td style='width: 24%'><input type='text' style='border: none ; background-color: transparent; text-overflow: ellipsis; width: 100%' tabindex='-1' value='".strtoupper($group->Surnames)."' readonly></td><td style='width: 24%'><input type='text' style='border: none ; background-color: transparent; text-overflow: ellipsis; width: 100%' tabindex='-1' value='$group->Email' readonly></td>";
