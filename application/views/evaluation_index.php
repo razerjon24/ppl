@@ -2,7 +2,7 @@
 <head>
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/evaluation.js"></script>
     <link rel="stylesheet" href="<?php echo base_url();?>assets/datepicker/css/datepicker.css">
-    <script type="text/javascript" src="<?php echo base_url();?>assets/datepicker/js/datepicker.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>assets/datepicker/js/datetimepicker.js"></script>
 </head>
 <div class="row" style='width: 100%; height: 400px'>
     <div class="col-md-offset-3 col-md-6 col-sm-6">
