@@ -48,4 +48,10 @@ class student_model extends CI_Model
         $query = $this->db->get();
         return $query->result();
     }
+    function preview_homework_evaluation($evaluation_student_id){
+        $this->db->from('homework_evaluation');
+        $this->db->where('homework_evaluation.Evaluation_student_id',$evaluation_student_id);
+        $query = $this->db->get();
+        return $query->result();
+    }
 }

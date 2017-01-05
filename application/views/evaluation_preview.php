@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php echo base_url();?>/assets/css/evaluation.css" type="text/css">
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/admin_tools.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/bpopup.js"></script>
-
+    <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.tablesorter.js"></script>
 
 
     <script type="text/javascript" >
@@ -23,6 +23,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             });
         }
+
+        function homework_evaluation(r_n, ev_id){
+            $.ajax({
+                type:'POST',
+                data:{r_n:r_n,ev_id:ev_id},
+                url:'<?php echo site_url('evaluation/homework_evaluation');?>',
+                success: function(result){
+                    popup = document.getElementById("peer_list");
+                    popup.innerHTML = result;
+                    popup.style.visibility = "visible";
+                    $('#peer_list').bPopup();
+                }
+            });
+        }
+
         function team_evaluation(r_n, ev_id){
             $.ajax({
                 type:'POST',
@@ -51,7 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 
 <div class="row" style='width: 100%; height: 400px'>
-    <div class="col-md-offset-3 col-md-6 col-sm-6">
+    <div class="col-md-offset-2 col-md-8 col-sm-8">
         <div class='panel panel-default'>
             <div class="panel-heading">
                 <h2 class='panel-title lead'><strong><?php echo $course[0]->Course_name.' Project'.$evaluation[0]->Project. '</br>' .strtoupper($evaluation[0]->Type).' ASSESSMENT';?></strong>
@@ -68,6 +83,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         echo "</th><th style='width: 128px; text-align: center'>TEAM ASSESSMENT";
     elseif($evaluation[0]->Type == 'Self')
         echo "</th><th style='width: 128px; text-align: center'>SELF ASSESSMENT";
+    elseif($evaluation[0]->Type == 'Homework')
+        echo "</th><th style='width: 128px; text-align: center'>HOMEWORK ASSESSMENT";
     echo "</th></tr></thead>";
     $evaluation_id = $evaluation[0]->Evaluation_id;
     foreach($students as $student){
@@ -87,6 +104,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         elseif($evaluation[0]->Type == 'Self') {
             echo "<td>$i</td><td style='text-align:left; padding-left: 18px'>".$student->Registration_number."</td><td style='text-align:left; padding-left: 18px'>" . strtoupper($student->Names) . "</td><td style='text-align: left; padding-left: 18px'>" . strtoupper($student->Surnames) . "</td><td style='width: 108px; text-align: center'>$student->Group_number";
             echo "</td><td>$student->Avg_Self";
+        }
+        elseif($evaluation[0]->Type == 'Homework'){
+            echo "<td>$i</td><td style='text-align:left; padding-left: 18px'><a onclick='homework_evaluation($student->Registration_number,$evaluation_id)'>".$student->Registration_number."</a></td><td style='text-align:left; padding-left: 18px'>".strtoupper($student->Names)."</td><td style='text-align: left; padding-left: 18px'>".strtoupper($student->Surnames)."</td><td style='width: 108px; text-align: center'>$student->Group_number";
+            echo "</td><td style='width: 108px; text-align: center'>$student->Avg_Homework";
         }
         echo "</td></tr>";
         $i++;

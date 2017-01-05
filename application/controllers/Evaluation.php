@@ -39,11 +39,11 @@ class Evaluation extends CI_Controller {
         if($_POST!=null && $this->session->userdata('user')=='teacher') {
             $this->load->model('course_model');
             $this->load->model('evaluation_model');
-            $this->load->library('email');
-            $config['mailtype'] = 'html';
-            $this->email->initialize($config);
-            $course = $this->course_model->getCourse_byId($course_id);
-            $course_name = $course[0]->Course_name;
+//            $this->load->library('email');
+//            $config['mailtype'] = 'html';
+//            $this->email->initialize($config);
+//            $course = $this->course_model->getCourse_byId($course_id);
+//            $course_name = $course[0]->Course_name;
             $project = $_POST['project'];
             $date_start = $_POST['date_start'];
             $date_end = $_POST['date_end'];
@@ -59,25 +59,33 @@ class Evaluation extends CI_Controller {
                 $evaluation_student_id = $this->evaluation_model->get_evaluation_student_id($evaluation_id[0]->Evaluation_id,$student->Registration_number);
                 if($type === 'Team'){
                     $this->evaluation_model->register_team_assessment($evaluation_student_id[0]->Evaluation_student_id);
-                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new ".$type." evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
+//                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new ".$type." evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
                 }
                 elseif($type === 'Peer'){
                     $students_by_group = $this->course_model->get_student_by_group($course_id, $student->Group_number);
-                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new ".$type." evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
+//                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new ".$type." evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
                     foreach($students_by_group as $student_group){
                         if($student->Registration_number != $student_group->Registration_number)
                             $this->evaluation_model->register_peer_assessment($evaluation_student_id[0]->Evaluation_student_id, $student_group->Registration_number);
                     }
                 }
                 elseif($type === 'Self'){
-                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new <strong>".$type."</strong> evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
+//                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new <strong>".$type."</strong> evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
                     $this->evaluation_model->register_self_assessment($evaluation_student_id[0]->Evaluation_student_id);
                 }
-                $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
-                $this->email->to($student->Email);
-                $this->email->subject('New Evaluation');
-                $this->email->message($email_body);
-                $this->email->send();
+                elseif($type === 'Homework'){
+                    $students_by_group = $this->course_model->get_student_by_group($course_id, $student->Group_number);
+//                    $email_body = "Hello!<br><br>The course <span style='text-decoration: underline'>".$course_name."</span> has released a new ".$type." evaluation for project <strong>".$project."</strong>.<br><br>The evaluation will start on <strong>".date('M j\, Y',strtotime($date_start))."</strong> until <strong>".date('M j\, Y',strtotime($date_end))."</strong>.<br><br><strong>Remember to evaluate your teammates.</strong><br><a href='http://ppl.espol.edu.ec'>Peer Project Learning</a>";
+                    foreach($students_by_group as $student_group){
+                        if($student->Registration_number != $student_group->Registration_number)
+                            $this->evaluation_model->register_homework_assessment($evaluation_student_id[0]->Evaluation_student_id, $student_group->Registration_number);
+                    }
+                }
+//                $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
+//                $this->email->to($student->Email);
+//                $this->email->subject('New Evaluation');
+//                $this->email->message($email_body);
+//                $this->email->send();
             }
             echo "<script> alert('Evaluation released successfully'); window.location.href='".base_url("index.php/evaluation/index/".$course_id)."';</script>";
         }
@@ -124,6 +132,7 @@ class Evaluation extends CI_Controller {
         $course_id = $_POST['course_id'];
         $project_number = $_POST['project'];
         $evaluation_number = $_POST['evaluation_number'];
+        $type = $_POST['type'];
         if($course_id != null && $evaluation_number != null && $project_number != null && $this->session->userdata('user')=='student'){
             $this->load->model('course_model');
             $this->load->model('evaluation_model');
@@ -131,17 +140,28 @@ class Evaluation extends CI_Controller {
             $courses_validator = $this->course_model->courseValidatorStudent($course_id,$registration_id);
             if($courses_validator){
                 $evaluation = $this->evaluation_model->get_student_evaluation($course_id,$project_number,$evaluation_number,$registration_id);
-                $peer_list = $this->evaluation_model->get_peer_list($evaluation[0]->Evaluation_student_id);
+                if($type == "Homework"){
+                    $peer_list = $this->evaluation_model->get_homework_list($evaluation[0]->Evaluation_student_id);
+                }
+                elseif($type == "Peer"){
+                    $peer_list = $this->evaluation_model->get_peer_list($evaluation[0]->Evaluation_student_id);
+                }
                 $course = $this->course_model->getCourse_byId($course_id);
                 if(!empty($peer_list)){
                     echo "<div class='panel panel-primary' style='margin-bottom: 0'>";
                     echo "<div class='panel-heading' style='text-align: left; text-align: center'>Group List</div>";
                     echo "<div class='panel-body' style='text-align: left;text-align: center; max-height: 150px; overflow: auto'>";
                     foreach ($peer_list as $peer_student) {
-                        if ($peer_student->Peer_took == 0 && $peer_student->Respondent != $this->session->userdata('user_id')) {
-                            echo "<a href=".base_url("index.php/evaluation/peer/".$course[0]->Course_id."/".$evaluation[0]->Project."/".$evaluation[0]->Evaluation_number."/".$peer_student->Registration_number)." style='font-size: 20px'>$peer_student->Names $peer_student->Surnames</a>";
-                            echo "<br>";
-                        }
+                        if($type == "Homework"){
+                            if ($peer_student->Homework_took == 0 && $peer_student->Respondent != $this->session->userdata('user_id')) {
+                                echo "<a href=".base_url("index.php/evaluation/homework/".$course[0]->Course_id."/".$evaluation[0]->Project."/".$evaluation[0]->Evaluation_number."/".$peer_student->Registration_number)." style='font-size: 20px'>$peer_student->Names $peer_student->Surnames</a>";
+                                echo "<br>";
+                            }}
+                        elseif($type == "Peer"){
+                            if ($peer_student->Peer_took == 0 && $peer_student->Respondent != $this->session->userdata('user_id')) {
+                                echo "<a href=".base_url("index.php/evaluation/peer/".$course[0]->Course_id."/".$evaluation[0]->Project."/".$evaluation[0]->Evaluation_number."/".$peer_student->Registration_number)." style='font-size: 20px'>$peer_student->Names $peer_student->Surnames</a>";
+                                echo "<br>";
+                            }}
                     }
                     echo "</div></div>";
                 }
@@ -239,6 +259,40 @@ class Evaluation extends CI_Controller {
             echo "<script>window.location.href='".base_url("index.php")."';</script>";
         }
     }
+
+    public function homework($course_id = null, $project_number = null, $evaluation_number = null, $peer_Registration_number = null){
+        if($course_id != null && $evaluation_number != null && $this->session->userdata('user')=='student' && $peer_Registration_number != null){
+            $this->load->model('course_model');
+            $this->load->model('evaluation_model');
+            $student_name = $this->session->userdata('user_name');
+            $registration_id = $this->session->userdata('user_id');
+            $courses_validator = $this->course_model->courseValidatorStudent($course_id,$registration_id);
+            if($courses_validator) {
+                $this->data['course'] = $this->course_model->getCourse_byId($course_id);
+                $this->data['student_name'] = $student_name;
+                $evaluation = $this->evaluation_model->get_student_evaluation($course_id, $project_number, $evaluation_number, $this->session->userdata('user_id'));
+                $student_checker = $this->evaluation_model->verify_homework_student($evaluation[0]->Evaluation_student_id, $peer_Registration_number);
+                $homework_checker = $this->evaluation_model->verify_homework_took($evaluation[0]->Evaluation_student_id, $peer_Registration_number);
+                if (!empty($evaluation) && $homework_checker == 0 && $student_checker == 1 && ($this->session->userdata('user_id') != $peer_Registration_number)) {
+                    $this->data['respondent'] = $this->course_model->getStudent_by_id($peer_Registration_number);
+                    $this->data['evaluation'] = $evaluation;
+                    $this->load->view('student_head', $this->data);
+                    $this->load->view('evaluation_homework', $this->data);
+                    $this->load->view('home_footer', $this->data);
+                } else {
+                    echo "<script>window.location.href='".base_url("index.php/student")."';</script>";
+                }
+            }
+            else{
+                echo "<script>window.location.href='".base_url("index.php/student")."';</script>";
+            }
+
+        }
+        else{
+            echo "<script>window.location.href='".base_url("index.php")."';</script>";
+        }
+    }
+
 
     public function team_send($course_id = null, $project_number = null, $evaluation_number = null){
         if($_POST && $course_id != null && $evaluation_number != null && $project_number != null && $this->session->userdata('user')=='student'){
@@ -350,6 +404,47 @@ class Evaluation extends CI_Controller {
         }
     }
 
+    public function homework_send($course_id = null, $project_number = null, $evaluation_number = null, $peer_Registration_number = null){
+        if($course_id != null && $evaluation_number != null && $project_number != null && $peer_Registration_number != null && $this->session->userdata('user')=='student'){
+            $this->load->model('course_model');
+            $this->load->model('evaluation_model');
+            $registration_id = $this->session->userdata('user_id');
+            $courses_validator = $this->course_model->courseValidatorStudent($course_id,$registration_id);
+            if($courses_validator) {
+                $evaluation = $this->evaluation_model->get_student_evaluation($course_id, $project_number, $evaluation_number,$this->session->userdata('user_id'));
+                $student_checker = $this->evaluation_model->verify_homework_student($evaluation[0]->Evaluation_student_id, $peer_Registration_number);
+                $peer_checker = $this->evaluation_model->verify_homework_took($evaluation[0]->Evaluation_student_id, $peer_Registration_number);
+                if(!empty($evaluation) && !$peer_checker && $student_checker && ($this->session->userdata('user_id') != $peer_Registration_number)){
+                    $score = $_POST['q1'];
+                    $this->evaluation_model->update_student_homework_evaluation($evaluation[0]->Evaluation_student_id,$peer_Registration_number, $score);
+                    $verifyPeerNotTaken = $this->evaluation_model->verify_student_evaluation_homework_took($evaluation[0]->Evaluation_student_id);
+                    if(!$verifyPeerNotTaken){
+                        $this->evaluation_model->update_student_evaluations_took($evaluation[0]->Evaluation_student_id);
+                        $group_list = $this->evaluation_model->get_evaluation_team_list($evaluation[0]->Evaluation_id,$evaluation[0]->Group_number);
+                        foreach($group_list as $member){
+                            if($member->Registration_number != $this->session->userdata('user_id')){
+                                $average = $this->evaluation_model->get_avg_homework_assessment_score($evaluation[0]->Evaluation_id, $member->Registration_number);
+                                $this->evaluation_model->register_student_avg_homework_score($member->Evaluation_student_id, round($average[0]->Score,2));
+                            }
+                        }
+                        echo "<script> alert('All peer evaluations have been taken!'); window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
+                    }
+                    else{
+                        echo "<script> alert('Evaluation sent successfully!'); window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
+                    }
+                }
+                else{
+                    echo "<script>window.location.href='".base_url("index.php/student")."';</script>";
+                }
+            }
+            else{
+                echo "<script>window.location.href='".base_url("index.php/student")."';</script>";
+            }
+        }
+        else{
+            echo "<script>window.location.href='".base_url("index.php")."';</script>";
+        }
+    }
     public function peer_report(){
         $evaluation_id = $_POST['ev'];
         $group_number = $_POST['g_n'];
@@ -425,6 +520,25 @@ class Evaluation extends CI_Controller {
             }
         }
     }
+    public function homework_report(){
+        $evaluation_id = $_POST['ev'];
+        $group_number = $_POST['g_n'];
+        $evaluation_student_id = $_POST['ev_st'];
+        if($evaluation_id != null && $group_number != null && $evaluation_student_id != null && $this->session->userdata('user')=='student') {
+            $this->load->model('evaluation_model');
+            $this->load->model('student_model');
+            $score = $this->student_model->get_avg($evaluation_student_id);
+            $score = $score[0]->Avg_Homework;
+            $team_list = $this->evaluation_model->get_evaluation_team_list($evaluation_id,$group_number);
+            if(!empty($team_list)){
+                echo "<div class='panel panel-primary' style='margin-bottom: 0'>";
+                echo "<div class='panel-heading' style='text-align: left; text-align: center'>Homework Assessment's Report</div>";
+                echo "<div class='panel-body' style='text-align: left;text-align: center; max-height: 90px'>";
+                echo "<p>Homework score: <strong>$score</strong> of 5</p>";
+                echo "</div></div>";
+            }
+        }
+    }
 
     public function peer_evaluation(){
         $evaluation_id = $_POST['ev_id'];
@@ -451,7 +565,33 @@ class Evaluation extends CI_Controller {
                 echo "</table>";
             }
         }
+    }
+    public function homework_evaluation(){
+        $evaluation_id = $_POST['ev_id'];
+        $registration_number = $_POST['r_n'];
+        if($evaluation_id != null && $registration_number != null && $this->session->userdata('user')=='teacher') {
+            $this->load->model('evaluation_model');
+            $this->load->model('student_model');
+            $this->load->model('course_model');
+            $student = $this->course_model->getStudent_by_id($registration_number);
+            $evaluation_student_id = $this->evaluation_model->get_evaluation_student_id($evaluation_id,$registration_number);
+            $peer_list = $this->student_model->preview_homework_evaluation($evaluation_student_id[0]->Evaluation_student_id);
+            if(!empty($peer_list)){
+                echo "<div class='panel-heading' style='color: #ffffff; font-size: 18px; text-align: center'>Evaluator: <strong>".$student[0]->Names." ".$student[0]->Surnames."</strong></div>";
+                echo "<table id='reportTable' class='tablesorter'>";
+                echo "<thead><tr><th style='width: 120px'>REG. ID</th><th style='width: 200px'>FIRST NAME</th><th style='width: 200px'>LAST NAME</th><th style='width: 108px; text-align: center'>SCORE</th></tr></thead>";
+                foreach($peer_list as $member){
+                    $respondent = $this->course_model->getStudent_by_id($member->Respondent);
+                    $surnames = $respondent[0]->Surnames;
+                    $names = $respondent[0]->Names;
+                    $r_n = $respondent[0]->Registration_number;
+                    echo "<tr class='reportRows'>";
+                    echo "<td style='text-align:left; padding-left: 18px'><input type='text' style='border: none ;width: 120px; text-overflow: ellipsis; background-color: transparent' value='$r_n' readonly></td><td style='text-align:left; padding-left: 18px'><input type='text' style='border: none ;width: 200px; text-overflow: ellipsis; background-color: transparent' value='$names' readonly></td><td style='text-align: left; padding-left: 18px'><input type='text' style='border: none ;width: 200px; text-overflow: ellipsis; background-color: transparent' value='$surnames' readonly></td><td style='text-align: center'>".$member->Score."</td></tr>";
+                }
+                echo "</table>";
+            }
         }
+    }
     public function team_evaluation(){
         $evaluation_id = $_POST['ev_id'];
         $registration_number = $_POST['r_n'];

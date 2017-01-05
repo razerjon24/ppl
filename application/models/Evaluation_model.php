@@ -85,6 +85,15 @@ class Evaluation_model extends CI_Model
         $this->db->insert('peer_evaluation', array('Evaluation_student_id'=>$evaluation_student_id, 'Respondent'=>$respondent));
     }
 
+    /*  @function register_homework_assessment
+     *  @params evaluation_student_id integer, respondent integer
+     *  @description Function that register a new homework assessment.
+     *  @return null
+     * */
+    public function register_homework_assessment($evaluation_student_id, $respondent){
+        $this->db->insert('homework_evaluation', array('Evaluation_student_id'=>$evaluation_student_id, 'Respondent'=>$respondent));
+    }
+
     /*  @function register_team_assessment
      *  @params evaluation_student_id integer
      *  @description Function that register a new team assessment.
@@ -140,6 +149,19 @@ class Evaluation_model extends CI_Model
         $this->db->from('peer_evaluation');
         $this->db->join('student','student.Registration_number = peer_evaluation.Respondent');
         $this->db->where('peer_evaluation.Evaluation_student_id',$evaluation_student_id);
+        $query= $this->db->get();
+        return $query->result();
+    }
+
+    /*  @function get_homework_list
+     *  @params evaluation_student_id integer
+     *  @description Function that retrieves homework_evaluations from student
+     *  @return array
+     * */
+    public function get_homework_list($evaluation_student_id){
+        $this->db->from('homework_evaluation');
+        $this->db->join('student','student.Registration_number = homework_evaluation.Respondent');
+        $this->db->where('homework_evaluation.Evaluation_student_id',$evaluation_student_id);
         $query= $this->db->get();
         return $query->result();
     }
@@ -231,6 +253,22 @@ class Evaluation_model extends CI_Model
             return false;
     }
 
+    /*  @function verify_homework_took
+     *  @params evaluation_student_id integer, registration_number integer
+     *  @description Function that verifies if the homework assessment has been taken
+     *  @return boolean
+     * */
+    public function verify_homework_took($evaluation_student_id, $registration_number){
+        $this->db->where('homework_evaluation.Evaluation_student_id',$evaluation_student_id);
+        $this->db->where('homework_evaluation.Respondent',$registration_number);
+        $this->db->where('homework_evaluation.Homework_took =',1);
+        $query = $this->db->get('homework_evaluation');
+        if($query->num_rows() == 1)
+            return true;
+        else
+            return false;
+    }
+
     /*  @function update_student_avg_self_score
      *  @params evaluation_student_id integer, AVGScore float
      *  @description Function that updates the self score of the student
@@ -266,8 +304,22 @@ class Evaluation_model extends CI_Model
         $this->db->from('peer_evaluation');
         $this->db->where('peer_evaluation.Evaluation_student_id',$evaluation_student_id);
         $this->db->where('peer_evaluation.Respondent',$registration_number);
-        $data = array('Score'=>$score/5, 'Peer_took'=>1, 'Peer_evaluation_date'=>$current_date, 'Feedback'=>$feedback, 'Suggestion'=>$suggestion);
+        $data = array('Score'=>$score, 'Peer_took'=>1, 'Peer_evaluation_date'=>$current_date, 'Feedback'=>$feedback, 'Suggestion'=>$suggestion);
         $this->db->update('peer_evaluation', $data);
+    }
+
+    /*  @function update_student_homework_evaluation
+     *  @params evaluation_student_id integer, registration_number integer, score integer, feedback text, suggestion text
+     *  @description Function that updates homework evaluation with the score
+     *  @return null
+     * */
+    public function update_student_homework_evaluation($evaluation_student_id, $registration_number, $score ){
+        $current_date = date('Y/m/d');
+        $this->db->from('homework_evaluation');
+        $this->db->where('homework_evaluation.Evaluation_student_id',$evaluation_student_id);
+        $this->db->where('homework_evaluation.Respondent',$registration_number);
+        $data = array('Score'=>$score, 'Homework_took'=>1, 'Homework_evaluation_date'=>$current_date);
+        $this->db->update('homework_evaluation', $data);
     }
 
     /*  @function verify_peer_student
@@ -280,6 +332,22 @@ class Evaluation_model extends CI_Model
         $this->db->where('peer_evaluation.Evaluation_student_id', $evaluation_student_id);
         $this->db->where('peer_evaluation.Respondent', $registration_number);
         $query = $this->db->get('peer_evaluation');
+        if($query->num_rows() == 1)
+            return true;
+        else
+            return false;
+    }
+
+    /*  @function verify_homework_student
+     *  @params evaluation_student_id integer, registration_number integer
+     *  @description Function that verify if respondent is in the team
+     *  @return integer
+     * */
+    public function verify_homework_student($evaluation_student_id, $registration_number)
+    {
+        $this->db->where('homework_evaluation.Evaluation_student_id', $evaluation_student_id);
+        $this->db->where('homework_evaluation.Respondent', $registration_number);
+        $query = $this->db->get('homework_evaluation');
         if($query->num_rows() == 1)
             return true;
         else
@@ -302,6 +370,22 @@ class Evaluation_model extends CI_Model
         return $query->result();
     }
 
+    /*  @function get_avg_homework_assessment_score
+     *  @params evaluation_id integer, evaluation_student_id integer, respondent_registration_number integer
+     *  @description Function that obtains the avg score of homework assessment of the given student
+     *  @return array
+     * */
+    public function get_avg_homework_assessment_score($evaluation_id, $respondent_registration_number){
+        $this->db->from('homework_evaluation');
+        $this->db->join('evaluation_student','evaluation_student.Evaluation_student_id = homework_evaluation.Evaluation_student_id');
+        $this->db->where('evaluation_student.Evaluation_id',$evaluation_id);
+        $this->db->where('homework_evaluation.Respondent',$respondent_registration_number);
+        $this->db->where('homework_evaluation.Score !=',0);
+        $this->db->select_avg('homework_evaluation.Score');
+        $query= $this->db->get();
+        return $query->result();
+    }
+
     /*  @function register_student_avg_peer_score
      *  @params respondent_evaluation_id integer, AVGScore float
      *  @description Function that updates the peer score of the respondent
@@ -311,6 +395,18 @@ class Evaluation_model extends CI_Model
         $this->db->from('evaluation_student');
         $this->db->where('evaluation_student.Evaluation_student_id',$respondent_evaluation_student_id);
         $data = array('Avg_Peer'=>$AVGScore);
+        $this->db->update('evaluation_student',$data);
+    }
+
+    /*  @function register_student_avg_homework_score
+     *  @params respondent_evaluation_id integer, AVGScore float
+     *  @description Function that updates the homework score of the respondent
+     *  @return null
+     * */
+    public function register_student_avg_homework_score($respondent_evaluation_student_id,$AVGScore){
+        $this->db->from('evaluation_student');
+        $this->db->where('evaluation_student.Evaluation_student_id',$respondent_evaluation_student_id);
+        $data = array('Avg_Homework'=>$AVGScore);
         $this->db->update('evaluation_student',$data);
     }
 
@@ -386,6 +482,20 @@ class Evaluation_model extends CI_Model
             return false;
     }
 
+    /*  @function verify_student_evaluation_homework_took
+     *  @params evaluation_student_id integer
+     *  @description Function that verify if all homework assessment have been taken
+     *  @return boolean
+     * */
+    public function verify_student_evaluation_homework_took($evaluation_student_id){
+        $this->db->where('homework_evaluation.Evaluation_student_id',$evaluation_student_id);
+        $this->db->where('homework_evaluation.Homework_took',0);
+        $query = $this->db->get('homework_evaluation');
+        if($query->num_rows() != 0)
+            return true;
+        else
+            return false;
+    }
 
     /*  @function update_student_evaluations_took
      *  @params evaluation_student_id integer

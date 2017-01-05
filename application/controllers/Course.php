@@ -41,7 +41,7 @@ class Course extends CI_Controller {
                         $student_family_names = $fileop[$req_data[1]-1];
                         $student_names = $fileop[$req_data[2]-1];
                         $student_email = $fileop[$req_data[3]-1];
-                        $password = random_string('alnum', 25);
+                        $password = random_string('alnum', 15);
                         $password_email = $password;
                         $password = sha1($password);
                         if (!empty($student_id) && !empty($student_names) && !empty($student_family_names) && !empty($student_email)) {
@@ -57,6 +57,7 @@ class Course extends CI_Controller {
                                     $this->email->subject('Welcome to Peer Project Learning');
                                     $this->email->message($email_body);
                                     $this->email->send();
+                                    sleep(0.15);
                                 }
                                 else{
                                     if($this->course_model->student_course_registration_checker($student_id,$student_email)==true){
@@ -69,6 +70,7 @@ class Course extends CI_Controller {
                                         $this->email->subject('New Course');
                                         $this->email->message($email_body);
                                         $this->email->send();
+                                        sleep(0.15);
                                     }
                                     else{
                                         $student_unregistered++;
@@ -147,7 +149,7 @@ class Course extends CI_Controller {
             if ($this->course_model->student_checker($st_registration, $student_email)== false) {
                 $student_names = $_POST['names'];
                 $student_family_names = $_POST['surnames'];
-                $password = random_string('alnum', 25);
+                $password = random_string('alnum', 15);
                 $password_email = $password;
                 $password = sha1($password);
                 $this->course_model->student_register($st_registration, $student_names, $student_family_names, $student_email, $password);
@@ -160,6 +162,7 @@ class Course extends CI_Controller {
                 $this->email->subject('Welcome to Peer Project Learning');
                 $this->email->message($email_body);
                 $this->email->send();
+                sleep(0.15);
             }
             else{
                 if($this->course_model->student_course_registration_checker($st_registration,$student_email)==true){
@@ -172,6 +175,7 @@ class Course extends CI_Controller {
                     $this->email->subject('New Course');
                     $this->email->message($email_body);
                     $this->email->send();
+                    sleep(0.15);
                 }
                 else{
                     $registration_flag = 1;
@@ -218,20 +222,13 @@ class Course extends CI_Controller {
     public function modify_groups($course_id = null){
         if($_POST!=null && $course_id!=null && $this->session->userdata('user')=='teacher'){
             $this->load->model('course_model');
-            $this->load->library('email');
-            $this->load->helper('email');
-            $config['mailtype'] = 'html';
-            $this->email->initialize($config);
             $array = $_POST['students'];
-            $course = $this->course_model->getCourse_byId($course_id);
-            $course_name = $course[0]->Course_name;
             $max = sizeof($array);
             for($i=0;$i<$max;$i++){
                 $id_registration = $this->course_model->get_student_registration_id($course_id, $array[$i]['id']);
                 $this->course_model->group_modify($array[$i]['group'],$id_registration[0]->Registration_id);
             }
             for($i=0;$i<$max;$i++){
-                $student = $this->course_model->getStudent_by_id($array[$i]['id']);
                 $registration = $this->course_model->get_student_registration_id($course_id,$array[$i]['id']);
                 $group = $this->course_model->get_student_group($registration[0]->Registration_id);
                 $group_members = $this->course_model->get_student_by_group($course_id,$group[0]->Group_number);
@@ -240,13 +237,6 @@ class Course extends CI_Controller {
                     if($member->Registration_number != $array[$i]['id'])
                         array_push($teammates, $member->Names." ".$member->Surnames);
                 }
-                $team = implode("<br>",$teammates);
-                $email_body = "<!DOCTYPE html><html><body>You have been added to group <strong>".$group[0]->Group_number."</strong>.<br>Course: <span style='text-decoration: underline'>".$course_name."</span>.<br><br>Your new teammates are:<br><br><strong>".$team."</strong><br>Remember to evaluate your teammates in future assessments!<br><a href='http://ppl.espol.edu.ec'>PPL webpage</a></body></html>";
-                $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
-                $this->email->to($student[0]->Email);
-                $this->email->subject('Welcome to Peer Project Learning');
-                $this->email->message($email_body);
-                $this->email->send();
             }
             echo "<script> alert('Groups modified successfully'); window.location.href='".base_url('index.php/admin/index/'.$course_id)."';</script>";
         }

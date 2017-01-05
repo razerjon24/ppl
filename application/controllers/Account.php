@@ -14,22 +14,25 @@ class Account extends CI_Controller
         $type = $this->input->post('type');
         //if($this->account_model->verify_Email_Teacher($email)){
         if($type == "instructor"){
-            $password_admin = password_hash("fisicacespol2015", PASSWORD_BCRYPT);
-            $ispassword = password_verify($password,$password_admin);
-	    if(!$ispassword){
-	        $password_admin = password_hash("fisicab2016", PASSWORD_BCRYPT);
-                $ispassword = password_verify($password,$password_admin);	
-            	if($email == "fisicac@espol.edu.ec" && $ispassword){
-                    $teacher = $this->account_model->verify_Teacher_Account($email,$password);
-                    $this->session->set_userdata('user', 'teacher');
-                    $this->session->set_userdata('user_id', $teacher->Teacher_id);
-                    $this->session->set_userdata('user_name',ucwords(strtolower($teacher->Names." ".$teacher->Surnames)));
-                    echo "<script> window.location.href='".base_url('index.php/admin')."';</script>";
+            //$password_admin = password_hash("fisicacespol2015", PASSWORD_BCRYPT);
+            //$ispassword = password_verify($password,$password_admin);
+	        //$password_admin = password_hash("fisicab2016", PASSWORD_BCRYPT);
+            if($email == "fisicac@espol.edu.ec" || $email == "fisicab@espol.edu.ec"){
+                if($email == "fisicac@espol.edu.ec" && $password != "fisicacespol2015"){
+                    echo "<script> alert('Wrong Password'); window.location.href='".base_url('index.php')."';</script>";
                 }
-                else{
-                    echo "<script> alert('Sorry, student login is allowed at the moment'); window.location.href='".base_url('index.php')."';</script>";
+                elseif($email == "fisicab@espol.edu.ec" && $password != "fisicab2016"){
+                    echo "<script> alert('Wrong Password'); window.location.href='".base_url('index.php')."';</script>";
                 }
-	    }
+                $teacher = $this->account_model->verify_Teacher_Account($email,$password);
+                $this->session->set_userdata('user', 'teacher');
+                $this->session->set_userdata('user_id', $teacher->Teacher_id);
+                $this->session->set_userdata('user_name',ucwords(strtolower($teacher->Names." ".$teacher->Surnames)));
+                echo "<script> window.location.href='".base_url('index.php/admin')."';</script>";
+            }
+            else{
+                echo "<script> alert('Sorry, student login is allowed at the moment'); window.location.href='".base_url('index.php')."';</script>";
+            }
         }
         elseif($type == "student"){
             if($this->account_model->verify_Email_Student($email)){
@@ -87,7 +90,7 @@ class Account extends CI_Controller
                 $this->session->set_userdata('user_id', $teacher->Teacher_id);
                 $this->session->set_userdata('user_name',ucwords(strtolower($teacher->Names." ".$teacher->Surnames)));
                 $email_body = "Hello!<br><br>Thanks for joining (PPL) website as an instructor!<br><br>Your account information is:<br><br><strong>Username: </strong>".$email."<br><strong>Password: </strong>".$password_email."<br><br>You can start creating courses now!<br>http://ppl.espol.edu.ec";
-                $this->email->from('ppl.espol@gmail.com', 'PPL');
+                $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
                 $this->email->to($email);
                 $this->email->subject('Welcome to PPL');
                 $this->email->message($email_body);
@@ -121,8 +124,8 @@ class Account extends CI_Controller
             $this->session->set_userdata('user', 'teacher');
             $this->session->set_userdata('user_id', $teacher->Teacher_id);
             $this->session->set_userdata('user_name',ucwords(strtolower($teacher->Names." ".$teacher->Surnames)));
-            $email_body = "Hello!<br><br>Thanks for joining (PPL) website as an instructor!<br><br>Your account information is:<br><br><strong>Username: </strong>".$email."<br><strong>Password: </strong>".$password_email."<br><br>You can start creating courses now!<br>http://ppl.espol.edu.ec";
-            $this->email->from('ppl.espol@gmail.com', 'PPL');
+            $email_body = "Thanks for joining (PPL) website as an instructor!<br><br>Your account information is:<br><br><strong>Username: </strong>".$email."<br><strong>Password: </strong>".$password_email."<br><br>http://ppl.espol.edu.ec";
+            $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
             $this->email->to($email);
             $this->email->subject('Welcome to PPL');
             $this->email->message($email_body);
@@ -196,7 +199,7 @@ class Account extends CI_Controller
                 $this->load->model('account_model');
                 $username = $_POST['username'];
                 $password = $_POST['password'];
-                $email_body = "Hello!<br><br>Your new account information is:<br><br><strong>Username: </strong>".$username."<br><strong>Password: </strong>".$password."<br><br>P.S. We are still in beta, any bugs report to ppl.espol@gmail.com<br>PPL website currently supports Google Chrome<br>http://ppl.espol.edu.ec";
+                $email_body = "Your new account information is:<br><br><strong>Username: </strong>".$username."<br><strong>Password: </strong>".$password."<br><br>http://ppl.espol.edu.ec";
                 $this->email->from('ppl@espol.edu.ec', 'ppl');
                 $this->email->to($username);
                 $this->email->subject('Forgot password PPL');
@@ -210,8 +213,8 @@ class Account extends CI_Controller
                 $this->load->helper('string');
                 $username = $_POST['username'];
                 $key = random_string('alnum',25);
-                $email_body = "Hello!<br><br>Since you have forgot your password, a link to verify your account have been sent to you.<br><br>Link: <a href='http://ppl.espol.edu.ec/index.php/account/forgot?user=$username&key=$key'> http://ppl.espol.edu.ec/index.php/account/forgot?user=".$username."&key=".$key."</a>";
-                $this->email->from('ppl@espol.edu.ec', 'ppl');
+                $email_body = "Since you have forgot your password, a link to verify your account have been sent to you.<br><br>Link: <a href='http://ppl.espol.edu.ec/index.php/account/forgot?user=$username&key=$key'> http://ppl.espol.edu.ec/index.php/account/forgot?user=".$username."&key=".$key."</a>";
+                $this->email->from('ppl@espol.edu.ec', 'Peer Project Learning');
                 $this->email->to($username);
                 $this->email->subject('Forgot password PPL');
                 $this->email->message($email_body);
