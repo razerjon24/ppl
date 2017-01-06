@@ -364,7 +364,7 @@ class Evaluation_model extends CI_Model
         $this->db->join('evaluation_student','evaluation_student.Evaluation_student_id = peer_evaluation.Evaluation_student_id');
         $this->db->where('evaluation_student.Evaluation_id',$evaluation_id);
         $this->db->where('peer_evaluation.Respondent',$respondent_registration_number);
-        $this->db->where('peer_evaluation.Score !=',0);
+        $this->db->where('evaluation_student.Took !=',0);
         $this->db->select_avg('peer_evaluation.Score');
         $query= $this->db->get();
         return $query->result();
@@ -380,6 +380,7 @@ class Evaluation_model extends CI_Model
         $this->db->join('evaluation_student','evaluation_student.Evaluation_student_id = homework_evaluation.Evaluation_student_id');
         $this->db->where('evaluation_student.Evaluation_id',$evaluation_id);
         $this->db->where('homework_evaluation.Respondent',$respondent_registration_number);
+        $this->db->where('evaluation_student.Took !=',0);
         $this->db->select_avg('homework_evaluation.Score');
         $query= $this->db->get();
         return $query->result();
@@ -418,7 +419,7 @@ class Evaluation_model extends CI_Model
         $this->db->from('evaluation_student');
         $this->db->where('evaluation_student.Evaluation_id',$evaluation_id);
         $this->db->where('evaluation_student.Group_number',$group_number);
-        $this->db->where('evaluation_student.Avg_Peer !=',0);
+        $this->db->where('evaluation_student.Took !=',0);
         $this->db->select_avg('evaluation_student.Avg_Peer');
         $query= $this->db->get();
         return $query->result();
@@ -433,7 +434,7 @@ class Evaluation_model extends CI_Model
         $this->db->from('evaluation_student');
         $this->db->where('evaluation_student.Evaluation_id',$evaluation_id);
         $this->db->where('evaluation_student.Group_number',$group_number);
-        $this->db->where('evaluation_student.Avg_Homework !=',0);
+        $this->db->where('evaluation_student.Took !=',0);
         $this->db->select_avg('evaluation_student.Avg_Homework');
         $query= $this->db->get();
         return $query->result();

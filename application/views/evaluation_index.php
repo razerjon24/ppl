@@ -3,6 +3,7 @@
     <script type="text/javascript" src="<?php echo base_url();?>assets/js/evaluation.js"></script>
     <link rel="stylesheet" href="<?php echo base_url();?>assets/datepicker/css/datepicker.css">
     <script type="text/javascript" src="<?php echo base_url();?>assets/datepicker/js/datepicker.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.tablesorter.js"></script>
 </head>
 <div class="row" style='width: 100%; height: 400px; margin:0'>
     <div class="col-md-offset-1 col-md-10">
@@ -16,8 +17,7 @@
             </div>
         <?php
             if(!empty($evaluations)){
-                echo "<table style='width: 100% ;font-size:16px; margin:0 2% 0 2%'><tr><th style='width: 6%'>#</th><th style='width: 13%'>START DATE</th><th style='width: 13%'>START TIME</th><th style='width: 13%'>END DATE</th><th style='width:13%'>END TIME</th><th style='width: 12%'>PROJECT</th><th style='width: 20%'>FORMAT</th><th>REPORT</th></tr></table>";
-                echo "<table id='evaluation_list' style='width:100%; margin:0 2% 0 2%; font-size:16px; height: 300px; overflow:auto'>";
+                echo "<table id='evaluation_list' class='tablesorter' style='width: 100% ;font-size:16px; margin:0 2% 0 2%'><thead><tr><th style='width: 6%'>#</th><th style='width: 13%'>START DATE</th><th style='width: 13%'>START TIME</th><th style='width: 13%'>END DATE</th><th style='width:13%'>END TIME</th><th style='width: 12%'>PROJECT</th><th style='width: 20%'>FORMAT</th><th>REPORT</th></tr></thead>";
                 $i = 1;
                 foreach($evaluations as $evaluation){
                     echo "<tr><td style='width: 6%'>$i</td><td style='width: 13%'>".date('M j\, Y',strtotime($evaluation->Evaluation_start))."</td><td style='width:13%'>".date('g:i a',strtotime($evaluation->Evaluation_start))."</td><td style='width: 13%'>".date('M j\, Y',strtotime($evaluation->Evaluation_end))."</td><td style='width:13%'>".date('g:i a',strtotime($evaluation->Evaluation_end))."</td><td style='width:12%'>$evaluation->Project</td><td style='width:20%'>$evaluation->Format</td><td><a href=".base_url()."index.php/evaluation/preview/".$courseInfo[0]->Course_id."/".$evaluation->Evaluation_number."/".$evaluation->Project.">".$evaluation->Type."</a></td></tr>";
@@ -95,6 +95,7 @@
     </div>
 </div>
 <script type="text/javascript">
+    $("#evaluation_list").tablesorter( {sortList: [[0,0], [1,0]]} );
     $(function () {
         $('#evaluation_start').datepicker().on('show', function(ev){
           $('.datepicker.dropdown-menu').css('z-index',10000);

@@ -436,9 +436,9 @@ class Evaluation extends CI_Controller {
                         $team_list = $this->evaluation_model->get_evaluation_team_list($evaluation[0]->Evaluation_id,$evaluation[0]->Group_number);
                         $avg_HW = $this->evaluation_model->get_avg_HW($evaluation[0]->Evaluation_id, $evaluation[0]->Group_number);
                         foreach($team_list as $student){
-                            if($student->Avg_Peer != 0 && $student->Registration_number != $this->session->userdata('user_id')) {
+                            if($student->Registration_number != $this->session->userdata('user_id')) {
                                 $average = $this->evaluation_model->get_avg_homework_assessment_score($evaluation[0]->Evaluation_id, $student->Registration_number);
-                                $evaluation_WF = round($average[0]->Score, 2) / round($avg_HW[0]->Avg_Peer, 2);
+                                $evaluation_WF = round($average[0]->Score, 2) / round($avg_HW[0]->Avg_Homework, 2);
                                 $this->evaluation_model->register_student_evaluation_WF_HW($student->Evaluation_student_id, round($evaluation_WF, 2));
                             }
                         }
