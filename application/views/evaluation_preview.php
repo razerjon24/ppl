@@ -1,5 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+header("Content-type: application/vnd.ms-excel; name='excel'");
+header("Content-Disposition: attachment; filename=ficheroExcel.xls");
+header("Pragma: no-cache");
+header("Expires: 0");
+echo $_POST['datos_a_enviar'];
 ?>
 
 <head>
@@ -96,7 +101,11 @@ foreach($students as $student){
     if($evaluation[0]->Type == 'Peer'){
         echo "<td>$i</td><td style='text-align:left; padding-left: 18px'><a onclick='peer_evaluation($student->Registration_number,$evaluation_id)'>".$student->Registration_number."</a></td><td style='text-align:left; padding-left: 18px'>".strtoupper($student->Names)."</td><td style='text-align: left; padding-left: 18px'>".strtoupper($student->Surnames)."</td><td style='width: 108px; text-align: center'>$student->Group_number";
         echo "</td><td style='width: 108px; text-align: center'>$student->Avg_Peer";
-        echo "</td><td>$student->Evaluation_WF";
+        if($student->Took == 0){
+            echo "</td><td>0";
+        }
+        else
+            echo "</td><td>$student->Evaluation_WF";
     }
     elseif($evaluation[0]->Type == 'Team'){
         echo "<td>$i</td><td style='text-align:left; padding-left: 18px'><a onclick='team_evaluation($student->Registration_number,$evaluation_id)'>".$student->Registration_number."</a></td><td style='text-align:left; padding-left: 18px'>".strtoupper($student->Names)."</td><td style='text-align: left; padding-left: 18px'>".strtoupper($student->Surnames)."</td><td style='width: 108px; text-align: center'>$student->Group_number";
@@ -109,7 +118,11 @@ foreach($students as $student){
     elseif($evaluation[0]->Type == 'Homework'){
         echo "<td>$i</td><td style='text-align:left; padding-left: 18px'><a onclick='homework_evaluation($student->Registration_number,$evaluation_id)'>".$student->Registration_number."</a></td><td style='text-align:left; padding-left: 18px'>".strtoupper($student->Names)."</td><td style='text-align: left; padding-left: 18px'>".strtoupper($student->Surnames)."</td><td style='width: 108px; text-align: center'>$student->Group_number";
         echo "</td><td style='width: 108px; text-align: center'>$student->Avg_Homework";
-        echo "</td><td>$student->Evaluation_WF_HW";
+        if($student->Took == 0){
+            echo "</td><td>0";
+        }
+        else
+            echo "</td><td>$student->Evaluation_WF_HW";
     }
     echo "</td></tr>";
     $i++;
