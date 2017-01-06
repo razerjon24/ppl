@@ -290,7 +290,7 @@ class Evaluation_model extends CI_Model
         $current_date = date('Y/m/d');
         $this->db->from('self_evaluation');
         $this->db->where('self_evaluation.Evaluation_student_id',$evaluation_student_id);
-        $data = array('Score'=>$score/5, 'Self_took'=>1, 'Self_evaluation_date'=>$current_date);
+        $data = array('Score'=>round(($score/5), 2), 'Self_took'=>1, 'Self_evaluation_date'=>$current_date);
         $this->db->update('self_evaluation', $data);
     }
 
@@ -304,7 +304,7 @@ class Evaluation_model extends CI_Model
         $this->db->from('peer_evaluation');
         $this->db->where('peer_evaluation.Evaluation_student_id',$evaluation_student_id);
         $this->db->where('peer_evaluation.Respondent',$registration_number);
-        $data = array('Score'=>$score, 'Peer_took'=>1, 'Peer_evaluation_date'=>$current_date, 'Feedback'=>$feedback, 'Suggestion'=>$suggestion);
+        $data = array('Score'=>round(($score/5), 2), 'Peer_took'=>1, 'Peer_evaluation_date'=>$current_date, 'Feedback'=>$feedback, 'Suggestion'=>$suggestion);
         $this->db->update('peer_evaluation', $data);
     }
 

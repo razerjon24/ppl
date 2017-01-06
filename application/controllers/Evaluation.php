@@ -316,7 +316,7 @@ class Evaluation extends CI_Controller {
                     $average = $this->evaluation_model->get_avg_team_assessment_score($evaluation[0]->Evaluation_id, $evaluation[0]->Group_number);
                     $this->evaluation_model->register_student_avg_team_score($evaluation[0]->Evaluation_id, $evaluation[0]->Group_number, round($average[0]->Score, 2));
                     $this->evaluation_model->update_student_evaluations_took($evaluation[0]->Evaluation_student_id);
-                    echo "<script> alert('Evaluation sent successfully!'); window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
+                    echo "<script>window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
                 } else {
                     echo "<script>window.location.href='".base_url("index.php/student")."';</script>";
                 }
@@ -343,7 +343,7 @@ class Evaluation extends CI_Controller {
                     $this->evaluation_model->update_student_self_evaluation($evaluation[0]->Evaluation_student_id, $score);
                     $this->evaluation_model->update_student_avg_self_score($evaluation[0]->Evaluation_student_id, $score);
                     $this->evaluation_model->update_student_evaluations_took($evaluation[0]->Evaluation_student_id);
-                    echo "<script> alert('Evaluation sent successfully!'); window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
+                    echo "<script>window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
                 }
                 else{
                     echo "<script>window.location.href='".base_url("index.php/student")."';</script>";
@@ -382,19 +382,18 @@ class Evaluation extends CI_Controller {
                                 $this->evaluation_model->register_student_avg_peer_score($member->Evaluation_student_id, round($average[0]->Score,2));
                             }
                         }
-                        $team_list = $this->evaluation_model->get_evaluation_team_list($evaluation[0]->Evaluation_id,$evaluation[0]->Group_number);
                         $avg_PA = $this->evaluation_model->get_avg_PA($evaluation[0]->Evaluation_id, $evaluation[0]->Group_number);
-                        foreach($team_list as $student){
+                        foreach($group_list as $student){
                             if($student->Avg_Peer != 0 && $student->Registration_number != $this->session->userdata('user_id')) {
                                 $average = $this->evaluation_model->get_avg_peer_assessment_score($evaluation[0]->Evaluation_id, $student->Registration_number);
                                 $evaluation_WF = round($average[0]->Score, 2) / round($avg_PA[0]->Avg_Peer, 2);
                                 $this->evaluation_model->register_student_evaluation_WF($student->Evaluation_student_id, round($evaluation_WF, 2));
                             }
                         }
-                        echo "<script> alert('All peer evaluations have been taken!'); window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
+                        echo "<script>window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
                     }
                     else{
-                        echo "<script> alert('Evaluation sent successfully!'); window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
+                        echo "<script>window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
                     }
                 }
                 else{
@@ -428,27 +427,22 @@ class Evaluation extends CI_Controller {
                         $this->evaluation_model->update_student_evaluations_took($evaluation[0]->Evaluation_student_id);
                         $group_list = $this->evaluation_model->get_evaluation_team_list($evaluation[0]->Evaluation_id,$evaluation[0]->Group_number);
                         foreach($group_list as $member){
-                            if($member->Registration_number != $this->session->userdata('user_id')){
-                                $average = $this->evaluation_model->get_avg_homework_assessment_score($evaluation[0]->Evaluation_id, $member->Registration_number);
-                                $this->evaluation_model->register_student_avg_homework_score($member->Evaluation_student_id, round($average[0]->Score,2));
-                            }
+                            $average = $this->evaluation_model->get_avg_homework_assessment_score($evaluation[0]->Evaluation_id, $member->Registration_number);
+                            $this->evaluation_model->register_student_avg_homework_score($member->Evaluation_student_id, round($average[0]->Score,2));
                         }
-                        $team_list = $this->evaluation_model->get_evaluation_team_list($evaluation[0]->Evaluation_id,$evaluation[0]->Group_number);
                         $avg_HW = $this->evaluation_model->get_avg_HW($evaluation[0]->Evaluation_id, $evaluation[0]->Group_number);
-                        foreach($team_list as $student){
-                            if($student->Registration_number != $this->session->userdata('user_id')) {
-                                $average = $this->evaluation_model->get_avg_homework_assessment_score($evaluation[0]->Evaluation_id, $student->Registration_number);
-                                $dividendo = round($avg_HW[0]->Avg_Homework, 2);
-                                if($dividendo == 0)
-                                    $dividendo += 1;
-                                $evaluation_WF = round($average[0]->Score, 2) / $dividendo;
-                                $this->evaluation_model->register_student_evaluation_WF_HW($student->Evaluation_student_id, round($evaluation_WF, 2));
-                            }
+                        foreach($group_list as $student){
+                            $average = $this->evaluation_model->get_avg_homework_assessment_score($evaluation[0]->Evaluation_id, $student->Registration_number);
+                            $dividendo = round($avg_HW[0]->Avg_Homework, 2);
+                            if($dividendo == 0)
+                                $dividendo += 1;
+                            $evaluation_WF = round($average[0]->Score, 2) / $dividendo;
+                            $this->evaluation_model->register_student_evaluation_WF_HW($student->Evaluation_student_id, round($evaluation_WF, 2));
                         }
-                        echo "<script> alert('All peer evaluations have been taken!'); window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
+                        echo "<script>window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
                     }
                     else{
-                        echo "<script> alert('Evaluation sent successfully!'); window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
+                        echo "<script>window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
                     }
                 }
                 else{
@@ -547,12 +541,14 @@ class Evaluation extends CI_Controller {
             $this->load->model('student_model');
             $score = $this->student_model->get_avg($evaluation_student_id);
             $score = $score[0]->Avg_Homework;
+            $wf = $score[0]->Evaluation_WF_HW;
             $team_list = $this->evaluation_model->get_evaluation_team_list($evaluation_id,$group_number);
             if(!empty($team_list)){
                 echo "<div class='panel panel-primary' style='margin-bottom: 0'>";
                 echo "<div class='panel-heading' style='text-align: left; text-align: center'>Homework Assessment's Report</div>";
                 echo "<div class='panel-body' style='text-align: left;text-align: center; max-height: 90px'>";
                 echo "<p>Homework score: <strong>$score</strong> of 5</p>";
+                echo "<p>Weighting Factor: <strong>$wf</strong></p>";
                 echo "</div></div>";
             }
         }
