@@ -377,18 +377,14 @@ class Evaluation extends CI_Controller {
                         $this->evaluation_model->update_student_evaluations_took($evaluation[0]->Evaluation_student_id);
                         $group_list = $this->evaluation_model->get_evaluation_team_list($evaluation[0]->Evaluation_id,$evaluation[0]->Group_number);
                         foreach($group_list as $member){
-                            if($member->Registration_number != $this->session->userdata('user_id')){
-                                $average = $this->evaluation_model->get_avg_peer_assessment_score($evaluation[0]->Evaluation_id, $member->Registration_number);
-                                $this->evaluation_model->register_student_avg_peer_score($member->Evaluation_student_id, round($average[0]->Score,2));
-                            }
+                            $average = $this->evaluation_model->get_avg_peer_assessment_score($evaluation[0]->Evaluation_id, $member->Registration_number);
+                            $this->evaluation_model->register_student_avg_peer_score($member->Evaluation_student_id, round($average[0]->Score,2));
                         }
                         $avg_PA = $this->evaluation_model->get_avg_PA($evaluation[0]->Evaluation_id, $evaluation[0]->Group_number);
                         foreach($group_list as $student){
-                            if($student->Avg_Peer != 0 && $student->Registration_number != $this->session->userdata('user_id')) {
-                                $average = $this->evaluation_model->get_avg_peer_assessment_score($evaluation[0]->Evaluation_id, $student->Registration_number);
-                                $evaluation_WF = round($average[0]->Score, 2) / round($avg_PA[0]->Avg_Peer, 2);
-                                $this->evaluation_model->register_student_evaluation_WF($student->Evaluation_student_id, round($evaluation_WF, 2));
-                            }
+                            $average = $this->evaluation_model->get_avg_peer_assessment_score($evaluation[0]->Evaluation_id, $student->Registration_number);
+                            $evaluation_WF = round($average[0]->Score, 2) / round($avg_PA[0]->Avg_Peer, 2);
+                            $this->evaluation_model->register_student_evaluation_WF($student->Evaluation_student_id, round($evaluation_WF, 2));
                         }
                         echo "<script>window.location.href='".base_url("index.php/student/index/".$course_id)."';</script>";
                     }
